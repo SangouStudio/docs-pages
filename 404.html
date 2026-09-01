@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<title>ページが見つかりません ｜ 三号スタジオ 説明書</title>
+<meta name="description" content="お探しのページは見つかりませんでした。">
+<link rel="icon" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+
+:root {
+    --l-bg: #ffffff;  --l-bg-soft: #f6f8fa;  --l-bg-sunk: #eef1f4;
+  --l-fg: #1f2328;  --l-fg-muted: #59636e;
+  --l-line: #d8dee4; --l-line-soft: #e6eaef;
+  --l-accent: #0a58a8; --l-accent-bg: #eaf2fb;
+
+    --d-bg: #0f1216;  --d-bg-soft: #171b21;  --d-bg-sunk: #1d222a;
+  --d-fg: #e4e9ee;  --d-fg-muted: #9aa4af;
+  --d-line: #2e353e; --d-line-soft: #242a32;
+  --d-accent: #7cb7f5; --d-accent-bg: #172231;
+
+    color-scheme: light;
+  --bg: var(--l-bg);  --bg-soft: var(--l-bg-soft);  --bg-sunk: var(--l-bg-sunk);
+  --fg: var(--l-fg);  --fg-muted: var(--l-fg-muted);
+  --line: var(--l-line); --line-soft: var(--l-line-soft);
+  --accent: var(--l-accent); --accent-bg: var(--l-accent-bg);
+
+  --radius: 10px;
+  --measure: 44rem;     --side: 17rem;        --toc: 15rem;         --bar: 3.4rem;      }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: var(--d-bg);  --bg-soft: var(--d-bg-soft);  --bg-sunk: var(--d-bg-sunk);
+    --fg: var(--d-fg);  --fg-muted: var(--d-fg-muted);
+    --line: var(--d-line); --line-soft: var(--d-line-soft);
+    --accent: var(--d-accent); --accent-bg: var(--d-accent-bg);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: var(--d-bg);  --bg-soft: var(--d-bg-soft);  --bg-sunk: var(--d-bg-sunk);
+  --fg: var(--d-fg);  --fg-muted: var(--d-fg-muted);
+  --line: var(--d-line); --line-soft: var(--d-line-soft);
+  --accent: var(--d-accent); --accent-bg: var(--d-accent-bg);
+}
+:root[data-theme="light"] { color-scheme: light; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--fg);
+  background: var(--bg);
+  overflow-wrap: break-word;
+  word-break: normal;
+  line-break: strict;
+}
+
+a { color: var(--accent); }
+
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar-inner {
+  padding: 0 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  min-height: var(--bar);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--fg);
+  white-space: nowrap;
+}
+.brand img { display: block; }
+
+.bar .spacer { flex: 1 1 auto; }
+
+.langs { display: flex; gap: .4rem; white-space: nowrap; }
+.langs a {
+  font-size: .84rem;
+  text-decoration: none;
+  color: var(--fg-muted);
+  padding: .16rem .55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.langs a[aria-current="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.theme {
+  font: inherit;
+  font-size: .95rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--fg-muted);
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .35rem .55rem;
+}
+.theme:hover { color: var(--fg); border-color: var(--accent); }
+.theme::before { content: "\263C"; }                    .theme[aria-pressed="true"]::before { content: "\263D"; } 
+.menu { display: none; }
+.menu > summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: .9rem;
+  padding: .3rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  white-space: nowrap;
+}
+.menu > summary::-webkit-details-marker { display: none; }
+.menu > summary::before { content: "\2630"; margin-right: .45rem; }
+.menu[open] > summary::before { content: "\00d7"; }
+
+.menu-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  max-height: calc(100dvh - var(--bar));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  padding: .6rem 1.1rem 1.4rem;
+  box-shadow: 0 8px 24px rgb(0 0 0 / .10);
+}
+
+
+.crumb {
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--bg-soft);
+  padding: .5rem 1.1rem;
+  font-size: .84rem;
+  color: var(--fg-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  align-items: center;
+}
+.crumb a { color: var(--fg-muted); text-decoration: none; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.crumb [aria-current="page"] { color: var(--fg); }
+.crumb span[aria-hidden] { opacity: .6; }
+
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--side) minmax(0, 1fr) var(--toc);
+  align-items: start;
+}
+.shell.solo { grid-template-columns: minmax(0, 1fr); }
+.shell.two  { grid-template-columns: minmax(0, 1fr) var(--toc); }
+
+.side {
+  position: sticky;
+  top: var(--bar);
+  height: calc(100vh - var(--bar));
+  height: calc(100dvh - var(--bar));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-right: 1px solid var(--line);
+  padding: 1.2rem .9rem 3rem;
+  background: var(--bg-soft);
+}
+
+.toc-right {
+  position: sticky;
+  top: var(--bar);
+  max-height: calc(100vh - var(--bar));
+  max-height: calc(100dvh - var(--bar));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.4rem 1rem 3rem 0;
+}
+
+main {
+  min-width: 0;
+  padding: 1.6rem 1.6rem 5rem;
+  display: flex;
+  justify-content: center;
+}
+.doc { width: 100%; max-width: var(--measure); }
+
+
+.toc, .toc ul { list-style: none; margin: 0; padding: 0; }
+
+.toc .sec {
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--fg-muted);
+  margin: 1.1rem 0 .35rem;
+  padding: 0 .55rem;
+}
+.toc .sec:first-child { margin-top: 0; }
+
+.toc a {
+  display: block;
+  text-decoration: none;
+  color: var(--fg);
+  font-size: .92rem;
+  line-height: 1.55;
+  padding: .34rem .55rem;
+  border-radius: var(--radius);
+}
+.toc a:hover { background: var(--bg-sunk); }
+.toc a[aria-current="page"] {
+  color: var(--accent);
+  background: var(--accent-bg);
+  font-weight: 700;
+}
+
+.inner { border-left: 1px solid var(--line); }
+.inner a {
+  display: block;
+  text-decoration: none;
+  font-size: .86rem;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  padding: .22rem .7rem;
+}
+.inner a:hover { color: var(--accent); }
+.inner a.deep { padding-left: 1.6rem; }
+
+.toc .inner { margin: .1rem 0 .5rem .9rem; }
+
+
+.doc h1 {
+  font-size: 1.72rem;
+  line-height: 1.45;
+  margin: 0 0 1.6rem;
+  padding-bottom: .7rem;
+  border-bottom: 1px solid var(--line);
+}
+.doc h2 {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  margin: 2.8rem 0 .9rem;
+  padding-bottom: .35rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+.doc h3 { font-size: 1.08rem; margin: 2rem 0 .7rem; }
+.doc h4 { font-size: 1rem; margin: 1.5rem 0 .5rem; color: var(--fg-muted); }
+
+.doc h2, .doc h3, .doc h4 { scroll-margin-top: calc(var(--bar) + 1rem); }
+
+.doc p { margin: 0 0 1.1rem; }
+.doc ul, .doc ol { margin: 0 0 1.1rem; padding-left: 1.6rem; }
+.doc li { margin: .25rem 0; }
+.doc li > ul, .doc li > ol { margin: .25rem 0 .35rem; }
+
+.doc figure { margin: 1.3rem 0; }
+.doc img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; }
+.doc figcaption { font-size: .85rem; color: var(--fg-muted); margin-top: .4rem; }
+
+.doc code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Courier New", monospace;
+  font-size: .92em;
+  background: var(--bg-sunk);
+  padding: .1rem .35rem;
+  border-radius: 5px;
+}
+
+.doc pre {
+  overflow-x: auto;
+  margin: 1.2rem 0;
+  padding: .8rem 1rem;
+  background: var(--bg-sunk);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  line-height: 1.75;
+}
+.doc pre code { background: none; padding: 0; border-radius: 0; }
+
+.doc blockquote {
+  margin: 1.2rem 0;
+  padding: .1rem 1rem;
+  border-left: 4px solid var(--line);
+  color: var(--fg-muted);
+}
+
+.cards { display: grid; gap: .9rem; margin: 1.6rem 0; }
+.cards a {
+  display: block;
+  text-decoration: none;
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  background: var(--bg-soft);
+}
+.cards a:hover { border-color: var(--accent); }
+.cards .ttl { display: block; font-weight: 700; color: var(--accent); }
+.cards .sub { display: block; font-size: .86rem; color: var(--fg-muted); }
+
+.table-wrap { overflow-x: auto; margin: 1.3rem 0; }
+.doc table { border-collapse: collapse; width: 100%; font-size: .93rem; }
+.doc th, .doc td {
+  border: 1px solid var(--line);
+  padding: .5rem .7rem;
+  text-align: left;
+  vertical-align: top;
+}
+.doc th { background: var(--bg-soft); font-weight: 700; white-space: nowrap; }
+
+.pager {
+  display: flex;
+  gap: .8rem;
+  margin-top: 3.5rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+.pager a {
+  flex: 1 1 0;
+  min-width: 0;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .7rem .9rem;
+}
+.pager a:hover { border-color: var(--accent); }
+.pager .lbl { display: block; font-size: .76rem; color: var(--fg-muted); }
+.pager .ttl { display: block; color: var(--accent); font-weight: 700; }
+.pager .next { text-align: right; margin-left: auto; }
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 1.6rem 1.1rem 2.4rem;
+  font-size: .85rem;
+  color: var(--fg-muted);
+}
+footer .footer-inner { max-width: 68rem; margin: 0 auto; }
+
+
+@media (max-width: 78rem) {
+  .shell { grid-template-columns: var(--side) minmax(0, 1fr); }
+  .shell.two { grid-template-columns: minmax(0, 1fr); }
+  .toc-right { display: none; }
+}
+
+
+@media (max-width: 64rem) {
+  .shell, .shell.solo, .shell.two { grid-template-columns: minmax(0, 1fr); }
+  .side { display: none; }
+  .menu { display: block; }
+  main { padding: 1.3rem 1.1rem 4rem; }
+  .brand-text { display: none; }
+}
+
+@media (max-width: 34rem) {
+  body { font-size: 15.5px; }
+  .doc h1 { font-size: 1.45rem; }
+  .doc h2 { font-size: 1.18rem; }
+  .pager { flex-direction: column; }
+  .pager .next { text-align: left; margin-left: 0; }
+}
+
+@media print {
+  .bar, .side, .toc-right, .menu, .crumb, .pager, footer { display: none; }
+  .shell { display: block; }
+  main { padding: 0; display: block; }
+  .doc { max-width: none; }
+}
+</style>
+</head>
+<body>
+<header class="bar">
+<div class="bar-inner">
+<a class="brand" href="/"><img src="/assets/mark.png" alt="" width="24" height="24"><span class="brand-text">Sangou Studio Docs</span></a>
+<span class="spacer"></span>
+<button class="theme" type="button" aria-pressed="false" aria-label="配色を切り替える" title="配色を切り替える"></button>
+</div>
+</header>
+<div class="shell solo">
+<main>
+<div class="doc">
+<h1>ページが見つかりません</h1>
+<p>お探しのページは、移動したか、無くなったようです。</p>
+<p><a href="/">説明書の一覧へ</a></p>
+<hr>
+<p lang="en">The page you are looking for could not be found. <a href="/">Back to the index</a>.</p>
+</div>
+</main>
+</div>
+<footer>
+<div class="footer-inner">三号スタジオ 説明書 ／ <a href="https://sangoustudio.booth.pm/">BOOTH</a></div>
+</footer>
+<script>
+(function(){
+  var b=document.querySelector(".theme"); if(!b) return;
+  function now(){
+    var a=document.documentElement.getAttribute("data-theme");
+    if(a==="dark"||a==="light") return a;
+    return (window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";
+  }
+  function put(v){
+    document.documentElement.setAttribute("data-theme",v);
+    b.setAttribute("aria-pressed", v==="dark"?"true":"false");
+    try{localStorage.setItem("theme",v)}catch(e){}
+  }
+  b.setAttribute("aria-pressed", now()==="dark"?"true":"false");
+  b.addEventListener("click",function(){ put(now()==="dark"?"light":"dark") });
+})();
+</script>
+</body>
+</html>
