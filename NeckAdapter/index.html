@@ -170,6 +170,17 @@ a { color: var(--accent); }
 .crumb [aria-current="page"] { color: var(--fg); }
 .crumb span[aria-hidden] { opacity: .6; }
 
+.crumb .shop {
+  margin-left: auto;
+  color: var(--accent);
+  white-space: nowrap;
+  padding: .1rem .6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.crumb .shop::after { content: " \2192"; }
+.crumb .shop:hover { border-color: var(--accent); background: var(--accent-bg); text-decoration: none; }
+
 
 .shell {
   display: grid;
@@ -417,12 +428,13 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; }
 </header>
 <nav class="crumb" aria-label="breadcrumb">
 <a href="../">Sangou Studio Docs</a><span aria-hidden="true">&rsaquo;</span><span aria-current="page">NeckAdapter</span>
+<a class="shop" href="https://sangoustudio.booth.pm/items/7813138">商品ページ（BOOTH）</a>
 </nav>
 <div class="shell two">
 <main>
 <div class="doc">
 <h1 id="h-63ec6e">NovaVultus専用ネックアダプター 説明書</h1>
-<p>[SpeQ:utako]のメカヘッド「NovaVultus」専用のアダプターパーツの説明書です。導入の手順と、VRChat内での操作方法をまとめています。</p>
+<p>[SpeQ:utako]のメカヘッド『NovaVultus』専用のアダプターパーツの説明書です。導入の手順と、VRChat内での操作方法をまとめています。</p>
 <hr>
 <h2 id="h-48907c">利用規約</h2>
 <p><strong>2026年9月15日から、新しい利用規約が適用されます。</strong></p>
@@ -448,9 +460,9 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; }
 </li>
 <li>多言語で文章が表現されている場合、日本語を優先します。
 </li>
-<li>ご購入前に必ず本商品の「利用規約」および「説明書」の内容をご確認のうえ、同意いただける場合のみご購入ください。
+<li>ご購入前に必ず本商品の『利用規約』および『説明書』の内容をご確認のうえ、同意いただける場合のみご購入ください。
 </li>
-<li>本商品を購入された時点で、「利用規約」および「説明書」の内容に同意いただいたものとみなします。
+<li>本商品を購入された時点で、『利用規約』および『説明書』の内容に同意いただいたものとみなします。
 </li>
 <li>本商品の内容・仕様・価格・説明書は、品質向上や更新のため変更される場合があります。
 </li>
@@ -476,7 +488,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; }
 </ul>
 <h3 id="h-ad7eb3">3. 不具合報告・問い合わせ</h3>
 <ul>
-<li>Boothのメッセージ機能からのみ受け付けます。
+<li>Boothのメッセージ機能から受け付けます。
 </li>
 <li>不具合報告の際は必要なアセットなどのバージョンや、使用しているアバター名、プロジェクトに含まれるツール類、アバターに含まれるギミックなどを添えてください。
 </li>
@@ -492,7 +504,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; }
 <hr>
 <h2 id="h-30edaa">必要なアセット</h2>
 <ul>
-<li>メカヘッドパーツ「NovaVultus」【3Dモデル衣装・装飾品】🔗<a href="https://utako3.booth.pm/items/5665503">https://utako3.booth.pm/items/5665503</a>
+<li>メカヘッドパーツ『NovaVultus』【3Dモデル衣装・装飾品】🔗<a href="https://utako3.booth.pm/items/5665503">https://utako3.booth.pm/items/5665503</a>
 </li>
 <li>Modular Avatar🔗<a href="https://modular-avatar.nadena.dev/ja">https://modular-avatar.nadena.dev/ja</a>
 </li>
@@ -512,9 +524,9 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; }
 <ol>
 <li value="1">必要なアセットをインポートする。
 </li>
-<li value="2">NovaVultus専用ネックアダプターのunitypackage「NeckAdapter_NV_Main_XXX」をインポートする。XXXにはバージョンの数字が入ります。
+<li value="2">NovaVultus専用ネックアダプターのunitypackage『NeckAdapter_NV_Main_XXX』をインポートする。XXXにはバージョンの数字が入ります。
 </li>
-<li value="3">NovaVultus専用ネックアダプターのunitypackage「NeckAdapter_NV_アバター名」をインポートする。
+<li value="3">NovaVultus専用ネックアダプターのunitypackage『NeckAdapter_NV_アバター名』をインポートする。
 </li>
 </ol>
 <h4 id="h-822aa3">3. アバターの使わないオブジェクトを無効化する</h4>
@@ -538,7 +550,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; }
 <figure><img src="images/image7.png" alt="image7.png" loading="lazy"></figure>
 <h4 id="h-0d1c7d">5. 首の貫通を防ぐ設定をする</h4>
 <ol>
-<li value="1">SangouStudio/Argments/NeckAdapter/for_NovaVultus/Variants/アバター名 のフォルダの中に「t_Mask_Body_アバター名」というテクスチャがあるアバターは首の貫通を防ぐ設定が必要です。テクスチャがなければ次のPrefabを配置に進んでください。例：ミルティナの場合
+<li value="1">SangouStudio/Argments/NeckAdapter/for_NovaVultus/Variants/アバター名 のフォルダの中に『t_Mask_Body_アバター名』というテクスチャがあるアバターは首の貫通を防ぐ設定が必要です。テクスチャがなければ次のPrefabを配置に進んでください。例：ミルティナの場合
 </li>
 </ol>
 <figure><img src="images/image8.png" alt="image8.png" loading="lazy"></figure>
@@ -550,22 +562,22 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; }
 </ol>
 <figure><img src="images/image4.png" alt="image4.png" loading="lazy"></figure>
 <ol>
-<li value="4">「0番のマテリアルスロットに適用」をオンにします。
+<li value="4">『0番のマテリアルスロットに適用』をオンにします。
 </li>
-<li value="5">「マスクテクスチャ」に「t_Mask_Body_アバター名」を割り当てます。例：ミルティナの場合
+<li value="5">『マスクテクスチャ』に『t_Mask_Body_アバター名』を割り当てます。例：ミルティナの場合
 </li>
 </ol>
 <figure><img src="images/image2.png" alt="image2.png" loading="lazy"></figure>
 <h4 id="h-cd8957">6. Prefabを配置</h4>
 <ul>
-<li>アバター直下にPrefabを配置します。SangouStudio/Argments/NeckAdapter/for_NovaVultus/Variants/アバター名 の中に「NeckAdapter_NV_アバター名」というPrefabがあります。
+<li>アバター直下にPrefabを配置します。SangouStudio/Argments/NeckAdapter/for_NovaVultus/Variants/アバター名 の中に『NeckAdapter_NV_アバター名』というPrefabがあります。
 </li>
 </ul>
 <h4 id="h-3b5332">7. NovaVultusをカスタムする</h4>
 <ol>
-<li value="1">配置したPrefabの中にある「PUT_MechaHead_HERE」というオブジェクトの中に自動的にNovaVultusのPrefab「Mecha_Head_Set」が配置されます。
+<li value="1">配置したPrefabの中にある『PUT_MechaHead_HERE』というオブジェクトの中に自動的にNovaVultusのPrefab『Mecha_Head_Set』が配置されます。
 </li>
-<li value="2">オブジェクト「Mecha_Head_Set」の中で使用したいオブジェクトを選択します。
+<li value="2">オブジェクト『Mecha_Head_Set』の中で使用したいオブジェクトを選択します。
 </li>
 <li value="3">Inspectorのチェックボックスをオンにします。
 </li>
@@ -580,16 +592,16 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; }
 <figure><img src="images/image1.png" alt="image1.png" loading="lazy"></figure>
 <h4 id="h-79edaf">8. NovaVultusのマテリアルを書き換える</h4>
 <ol>
-<li value="1">Assets/SangouStudio/Augments/NeckAdapter/for_NovaVultus/Materials にある「m_NeckAdapter_NV_Sample_LT」を選択します。
+<li value="1">Assets/SangouStudio/Augments/NeckAdapter/for_NovaVultus/Materials にある『m_NeckAdapter_NV_Sample_LT』を選択します。
 </li>
-<li value="2">Inspectorの発光設定の右にある歯車マークからドロップダウンを開き「コピー」をクリックします。
+<li value="2">Inspectorの発光設定の右にある歯車マークからドロップダウンを開き『コピー』をクリックします。
 </li>
 </ol>
 <figure><img src="images/image9.png" alt="image9.png" loading="lazy"></figure>
 <ol>
 <li value="3">SpeQ_MechaHead_Base_Aなど、NovaVultus本体（メカヘッドベース）のマテリアルを選択します。
 </li>
-<li value="4">発光設定の右にある歯車マークからドロップダウンを開き「貼り付け（テクスチャを含む）」をクリックします。
+<li value="4">発光設定の右にある歯車マークからドロップダウンを開き『貼り付け（テクスチャを含む）』をクリックします。
 </li>
 <li value="5">AudioLinkも同様に設定をコピーして貼り付けます。
 </li>
@@ -597,7 +609,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; }
 <figure><img src="images/image6.png" alt="image6.png" loading="lazy"></figure>
 <h4 id="h-a274db">9. アバターをテストする</h4>
 <ol>
-<li value="1">必ず、アップロードする前にBuild Type 「Build &amp; Test Your Avatar」で動作を確認してください。
+<li value="1">必ず、アップロードする前にBuild Type 『Build &amp; Test Your Avatar』で動作を確認してください。
 </li>
 <li value="2">もし、下記のエラーがVRChatSDKタブ内に出てアバターがビルドできない場合は、Auto Fixを行ってください。
 </li>
@@ -621,6 +633,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; }
 <div class="table-wrap"><table>
 <thead><tr><th>日付</th><th>バージョン</th><th>更新内容</th></tr></thead>
 <tbody>
+<tr><td>2026/9/2</td><td></td><td>表記を統一、問い合わせ窓口の記載を修正</td></tr>
 <tr><td>2026/9/1</td><td></td><td>規約の変更を予告、説明書をウェブページに変更</td></tr>
 <tr><td>2025/12/30</td><td>1.0.2</td><td>不具合を修正</td></tr>
 <tr><td>2025/12/30</td><td>1.0.0</td><td>公開</td></tr>

@@ -170,6 +170,17 @@ a { color: var(--accent); }
 .crumb [aria-current="page"] { color: var(--fg); }
 .crumb span[aria-hidden] { opacity: .6; }
 
+.crumb .shop {
+  margin-left: auto;
+  color: var(--accent);
+  white-space: nowrap;
+  padding: .1rem .6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.crumb .shop::after { content: " \2192"; }
+.crumb .shop:hover { border-color: var(--accent); background: var(--accent-bg); text-decoration: none; }
+
 
 .shell {
   display: grid;
@@ -417,6 +428,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; }
 </header>
 <nav class="crumb" aria-label="breadcrumb">
 <a href="../../">Sangou Studio Docs</a><span aria-hidden="true">&rsaquo;</span><span aria-current="page">NeckAdapter</span>
+<a class="shop" href="https://sangoustudio.booth.pm/items/7813138">Product page (BOOTH)</a>
 </nav>
 <div class="shell two">
 <main>

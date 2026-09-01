@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<title>VR169 Companion ｜ 三号スタジオ 説明書</title>
+<meta name="description" content="VR169 の取扱説明書です。">
+<link rel="icon" href="../../favicon.png">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<style>
+
+:root {
+    --l-bg: #ffffff;  --l-bg-soft: #f6f8fa;  --l-bg-sunk: #eef1f4;
+  --l-fg: #1f2328;  --l-fg-muted: #59636e;
+  --l-line: #d8dee4; --l-line-soft: #e6eaef;
+  --l-accent: #0a58a8; --l-accent-bg: #eaf2fb;
+
+    --d-bg: #0f1216;  --d-bg-soft: #171b21;  --d-bg-sunk: #1d222a;
+  --d-fg: #e4e9ee;  --d-fg-muted: #9aa4af;
+  --d-line: #2e353e; --d-line-soft: #242a32;
+  --d-accent: #7cb7f5; --d-accent-bg: #172231;
+
+    color-scheme: light;
+  --bg: var(--l-bg);  --bg-soft: var(--l-bg-soft);  --bg-sunk: var(--l-bg-sunk);
+  --fg: var(--l-fg);  --fg-muted: var(--l-fg-muted);
+  --line: var(--l-line); --line-soft: var(--l-line-soft);
+  --accent: var(--l-accent); --accent-bg: var(--l-accent-bg);
+
+  --radius: 10px;
+  --measure: 44rem;     --side: 17rem;        --toc: 15rem;         --bar: 3.4rem;      }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: var(--d-bg);  --bg-soft: var(--d-bg-soft);  --bg-sunk: var(--d-bg-sunk);
+    --fg: var(--d-fg);  --fg-muted: var(--d-fg-muted);
+    --line: var(--d-line); --line-soft: var(--d-line-soft);
+    --accent: var(--d-accent); --accent-bg: var(--d-accent-bg);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: var(--d-bg);  --bg-soft: var(--d-bg-soft);  --bg-sunk: var(--d-bg-sunk);
+  --fg: var(--d-fg);  --fg-muted: var(--d-fg-muted);
+  --line: var(--d-line); --line-soft: var(--d-line-soft);
+  --accent: var(--d-accent); --accent-bg: var(--d-accent-bg);
+}
+:root[data-theme="light"] { color-scheme: light; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--fg);
+  background: var(--bg);
+  overflow-wrap: break-word;
+  word-break: normal;
+  line-break: strict;
+}
+
+a { color: var(--accent); }
+
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar-inner {
+  padding: 0 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  min-height: var(--bar);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--fg);
+  white-space: nowrap;
+}
+.brand img { display: block; }
+
+.bar .spacer { flex: 1 1 auto; }
+
+.langs { display: flex; gap: .4rem; white-space: nowrap; }
+.langs a {
+  font-size: .84rem;
+  text-decoration: none;
+  color: var(--fg-muted);
+  padding: .16rem .55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.langs a[aria-current="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.theme {
+  font: inherit;
+  font-size: .95rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--fg-muted);
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .35rem .55rem;
+}
+.theme:hover { color: var(--fg); border-color: var(--accent); }
+.theme::before { content: "\263C"; }                    .theme[aria-pressed="true"]::before { content: "\263D"; } 
+.menu { display: none; }
+.menu > summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: .9rem;
+  padding: .3rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  white-space: nowrap;
+}
+.menu > summary::-webkit-details-marker { display: none; }
+.menu > summary::before { content: "\2630"; margin-right: .45rem; }
+.menu[open] > summary::before { content: "\00d7"; }
+
+.menu-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  max-height: calc(100dvh - var(--bar));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  padding: .6rem 1.1rem 1.4rem;
+  box-shadow: 0 8px 24px rgb(0 0 0 / .10);
+}
+
+
+.crumb {
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--bg-soft);
+  padding: .5rem 1.1rem;
+  font-size: .84rem;
+  color: var(--fg-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  align-items: center;
+}
+.crumb a { color: var(--fg-muted); text-decoration: none; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.crumb [aria-current="page"] { color: var(--fg); }
+.crumb span[aria-hidden] { opacity: .6; }
+
+.crumb .shop {
+  margin-left: auto;
+  color: var(--accent);
+  white-space: nowrap;
+  padding: .1rem .6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.crumb .shop::after { content: " \2192"; }
+.crumb .shop:hover { border-color: var(--accent); background: var(--accent-bg); text-decoration: none; }
+
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--side) minmax(0, 1fr) var(--toc);
+  align-items: start;
+}
+.shell.solo { grid-template-columns: minmax(0, 1fr); }
+.shell.two  { grid-template-columns: minmax(0, 1fr) var(--toc); }
+
+.side {
+  position: sticky;
+  top: var(--bar);
+  height: calc(100vh - var(--bar));
+  height: calc(100dvh - var(--bar));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-right: 1px solid var(--line);
+  padding: 1.2rem .9rem 3rem;
+  background: var(--bg-soft);
+}
+
+.toc-right {
+  position: sticky;
+  top: var(--bar);
+  max-height: calc(100vh - var(--bar));
+  max-height: calc(100dvh - var(--bar));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.4rem 1rem 3rem 0;
+}
+
+main {
+  min-width: 0;
+  padding: 1.6rem 1.6rem 5rem;
+  display: flex;
+  justify-content: center;
+}
+.doc { width: 100%; max-width: var(--measure); }
+
+
+.toc, .toc ul { list-style: none; margin: 0; padding: 0; }
+
+.toc .sec {
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--fg-muted);
+  margin: 1.1rem 0 .35rem;
+  padding: 0 .55rem;
+}
+.toc .sec:first-child { margin-top: 0; }
+
+.toc a {
+  display: block;
+  text-decoration: none;
+  color: var(--fg);
+  font-size: .92rem;
+  line-height: 1.55;
+  padding: .34rem .55rem;
+  border-radius: var(--radius);
+}
+.toc a:hover { background: var(--bg-sunk); }
+.toc a[aria-current="page"] {
+  color: var(--accent);
+  background: var(--accent-bg);
+  font-weight: 700;
+}
+
+.inner { border-left: 1px solid var(--line); }
+.inner a {
+  display: block;
+  text-decoration: none;
+  font-size: .86rem;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  padding: .22rem .7rem;
+}
+.inner a:hover { color: var(--accent); }
+.inner a.deep { padding-left: 1.6rem; }
+
+.toc .inner { margin: .1rem 0 .5rem .9rem; }
+
+
+.doc h1 {
+  font-size: 1.72rem;
+  line-height: 1.45;
+  margin: 0 0 1.6rem;
+  padding-bottom: .7rem;
+  border-bottom: 1px solid var(--line);
+}
+.doc h2 {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  margin: 2.8rem 0 .9rem;
+  padding-bottom: .35rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+.doc h3 { font-size: 1.08rem; margin: 2rem 0 .7rem; }
+.doc h4 { font-size: 1rem; margin: 1.5rem 0 .5rem; color: var(--fg-muted); }
+
+.doc h2, .doc h3, .doc h4 { scroll-margin-top: calc(var(--bar) + 1rem); }
+
+.doc p { margin: 0 0 1.1rem; }
+.doc ul, .doc ol { margin: 0 0 1.1rem; padding-left: 1.6rem; }
+.doc li { margin: .25rem 0; }
+.doc li > ul, .doc li > ol { margin: .25rem 0 .35rem; }
+
+.doc figure { margin: 1.3rem 0; }
+.doc img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; }
+.doc figcaption { font-size: .85rem; color: var(--fg-muted); margin-top: .4rem; }
+
+.doc code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Courier New", monospace;
+  font-size: .92em;
+  background: var(--bg-sunk);
+  padding: .1rem .35rem;
+  border-radius: 5px;
+}
+
+.doc pre {
+  overflow-x: auto;
+  margin: 1.2rem 0;
+  padding: .8rem 1rem;
+  background: var(--bg-sunk);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  line-height: 1.75;
+}
+.doc pre code { background: none; padding: 0; border-radius: 0; }
+
+.doc blockquote {
+  margin: 1.2rem 0;
+  padding: .1rem 1rem;
+  border-left: 4px solid var(--line);
+  color: var(--fg-muted);
+}
+
+.cards { display: grid; gap: .9rem; margin: 1.6rem 0; }
+.cards a {
+  display: block;
+  text-decoration: none;
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  background: var(--bg-soft);
+}
+.cards a:hover { border-color: var(--accent); }
+.cards .ttl { display: block; font-weight: 700; color: var(--accent); }
+.cards .sub { display: block; font-size: .86rem; color: var(--fg-muted); }
+
+.table-wrap { overflow-x: auto; margin: 1.3rem 0; }
+.doc table { border-collapse: collapse; width: 100%; font-size: .93rem; }
+.doc th, .doc td {
+  border: 1px solid var(--line);
+  padding: .5rem .7rem;
+  text-align: left;
+  vertical-align: top;
+}
+.doc th { background: var(--bg-soft); font-weight: 700; white-space: nowrap; }
+
+.pager {
+  display: flex;
+  gap: .8rem;
+  margin-top: 3.5rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+.pager a {
+  flex: 1 1 0;
+  min-width: 0;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .7rem .9rem;
+}
+.pager a:hover { border-color: var(--accent); }
+.pager .lbl { display: block; font-size: .76rem; color: var(--fg-muted); }
+.pager .ttl { display: block; color: var(--accent); font-weight: 700; }
+.pager .next { text-align: right; margin-left: auto; }
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 1.6rem 1.1rem 2.4rem;
+  font-size: .85rem;
+  color: var(--fg-muted);
+}
+footer .footer-inner { max-width: 68rem; margin: 0 auto; }
+
+
+@media (max-width: 78rem) {
+  .shell { grid-template-columns: var(--side) minmax(0, 1fr); }
+  .shell.two { grid-template-columns: minmax(0, 1fr); }
+  .toc-right { display: none; }
+}
+
+
+@media (max-width: 64rem) {
+  .shell, .shell.solo, .shell.two { grid-template-columns: minmax(0, 1fr); }
+  .side { display: none; }
+  .menu { display: block; }
+  main { padding: 1.3rem 1.1rem 4rem; }
+  .brand-text { display: none; }
+}
+
+@media (max-width: 34rem) {
+  body { font-size: 15.5px; }
+  .doc h1 { font-size: 1.45rem; }
+  .doc h2 { font-size: 1.18rem; }
+  .pager { flex-direction: column; }
+  .pager .next { text-align: left; margin-left: 0; }
+}
+
+@media print {
+  .bar, .side, .toc-right, .menu, .crumb, .pager, footer { display: none; }
+  .shell { display: block; }
+  main { padding: 0; display: block; }
+  .doc { max-width: none; }
+}
+</style>
+</head>
+<body>
+<header class="bar">
+<div class="bar-inner">
+<a class="brand" href="../../"><img src="../../assets/mark.png" alt="" width="24" height="24"><span class="brand-text">Sangou Studio Docs</span></a>
+<details class="menu">
+<summary>目次</summary>
+<div class="menu-panel">
+<nav class="toc">
+<p class="sec">VR169</p>
+<a href="../index.html">VR169 VL2 取扱説明書</a>
+<a href="../terms/index.html">利用規約と注意</a>
+<a href="../install/index.html">アバターへの導入</a>
+<a href="../vrchat/index.html">VRChatの設定</a>
+<a href="../companion/index.html" aria-current="page">VR169 Companion</a>
+<a href="../controls/index.html">VR169の操作</a>
+<a href="../exmenu/index.html">ExMenuとパラメーター</a>
+<a href="../changelog/index.html">更新履歴</a>
+</nav>
+<div class="inner">
+<a href="#h-68a8ba">概要</a>
+<a class="deep" href="#h-a8d4e2">主な機能</a>
+<a class="deep" href="#h-037658">動作仕様と制限</a>
+<a href="#h-b4aa66">導入方法</a>
+<a class="deep" href="#h-f91c78">配置手順</a>
+<a class="deep" href="#h-94ffab">セキュリティプロテクトの解除</a>
+<a href="#h-8cbd43">設定と操作</a>
+<a class="deep" href="#h-4ef0bb">設定</a>
+<a class="deep" href="#h-400a0c">運用手順</a>
+</div>
+</div>
+</details>
+<span class="spacer"></span>
+<button class="theme" type="button" aria-pressed="false" aria-label="配色を切り替える" title="配色を切り替える"></button>
+</div>
+</header>
+<nav class="crumb" aria-label="breadcrumb">
+<a href="../../">Sangou Studio Docs</a><span aria-hidden="true">&rsaquo;</span><a href="../">VR169</a><span aria-hidden="true">&rsaquo;</span><span aria-current="page">VR169 Companion</span>
+<a class="shop" href="https://sangoustudio.booth.pm/items/7546821">商品ページ（BOOTH）</a>
+</nav>
+<div class="shell">
+<div class="side">
+<nav class="toc">
+<p class="sec">VR169</p>
+<a href="../index.html">VR169 VL2 取扱説明書</a>
+<a href="../terms/index.html">利用規約と注意</a>
+<a href="../install/index.html">アバターへの導入</a>
+<a href="../vrchat/index.html">VRChatの設定</a>
+<a href="../companion/index.html" aria-current="page">VR169 Companion</a>
+<a href="../controls/index.html">VR169の操作</a>
+<a href="../exmenu/index.html">ExMenuとパラメーター</a>
+<a href="../changelog/index.html">更新履歴</a>
+</nav>
+</div>
+<main>
+<div class="doc">
+<h1 id="h-332ffd">VR169 Companion</h1>
+<p>アセット連動アプリケーション『VR169 Companion』の導入、設定、および使用方法について解説します。</p>
+<h2 id="h-68a8ba">概要</h2>
+<p>『VR169 Companion』は、通常のアバターギミック単体では制御できないVRChatのシステム機能との連携を実現する、Windows専用の連動アプリケーションです。インストーラーによるシステムへの書き込みやレジストリの変更、管理者権限を要求しない設計となっており、VRChatとOSCプロトコルを介してローカル通信を行い、公式のカメラパラメーターやアセット専用の制御シグナルを同期します。</p>
+<h3 id="h-a8d4e2">主な機能</h3>
+<ul>
+<li>VR169とVRChat標準カメラの連携起動・終了VRChat標準カメラの起動を検知してアバター側のアセットを自動的に展開し、VRChat標準カメラの終了を検知してアセットを自動的に終了させます。※アセット側の操作からVRChat標準カメラを直接起動または終了させることはできません。VR169からのカメラシャッター制御アバター側のハンドジェスチャー操作またはExpressionメニューの操作を検知し、VRChat標準カメラに撮影させます。他のOSC通信アプリケーションとの共存送信アドレスなどをカスタマイズできるため、OSC通信を行う他の外部アプリケーションと干渉することなく並行して運用が可能です。
+</li>
+</ul>
+<h3 id="h-037658">動作仕様と制限</h3>
+<p>本アプリケーションはVRChatとの間でローカルネットワーク通信を行います。ご使用のPC環境によっては、正常に連動機能が動作しない場合があります。</p>
+<ul>
+<li>初期化プロセスによるカメラ自動終了本アプリケーションがアバター側のVR169を認識した際、VRChat標準カメラが開いている場合は自動的に閉じます。
+</li>
+<li>起動直後のガード時間アセットが起動した直後の約２秒間は、誤動作や多重送信を防止するため、シャッター入力を受け付けません。
+</li>
+<li>撮影連続送信の制限VRChatの仕様に基づき、連続した撮影指示の送信には約1秒の間隔が必要です。
+</li>
+<li>通信環境による影響PCの通信高負荷やパケット損失が発生した場合、極稀に連動データの遅延や瞬断が発生することがあります。
+</li>
+<li>ログ履歴の上限アプリケーション内のログ表示領域に保持される履歴は、最大1000件に制限されています。
+</li>
+<li>タイマー撮影極稀にタイマーがキャンセルされる場合があります。現在の仕様です。
+</li>
+</ul>
+<h2 id="h-b4aa66">導入方法</h2>
+<h3 id="h-f91c78">配置手順</h3>
+<p>アセットパッケージに同梱されている VR169_Companion_x.x.x フォルダを、フォルダごと任意のローカルフォルダへ配置してください。フォルダ内にある VR169_Companion.exe がアプリケーション本体となります。※管理者権限による保護が有効なフォルダ（例：C:\Program Files）に配置した場合、設定ファイルの書き込みに失敗することがあります。ユーザーフォルダなどの権限が開放されたディレクトリへの配置を推奨します。</p>
+<h3 id="h-94ffab">セキュリティプロテクトの解除</h3>
+<p>インターネットからダウンロードした実行可能プログラムは、Windowsの保護機能やセキュリティ対策ソフトウェアによって起動を制限されたり、隔離・消去されたりする場合があります。必要に応じて以下の解除手順を実施してください。</p>
+<p>プロパティにおけるブロック解除</p>
+<ul>
+<li>アプリケーションファイル（VR169_Companion.exe）を右クリックし、『プロパティ』を選択します。
+</li>
+<li>『全般』タブの最下部にあるセキュリティ項目を確認します。
+</li>
+<li>『許可する』（または『ブロックの解除』）にチェックを入れます。
+</li>
+<li>『適用』をクリックした後、『OK』を選択してウィンドウを閉じます。
+</li>
+</ul>
+<p>Windows SmartScreenの警告が表示された場合 『Windows によって PC が保護されました』という青色の警告画面が表示された場合は、以下の操作を行います。</p>
+<ul>
+<li>警告文内の『詳細情報』と書かれたテキストリンクをクリックします。
+</li>
+<li>新たに表示される『実行』ボタンをクリックします。これによって起動保護が解除されます。この操作は初回起動時のみ必要です。
+</li>
+</ul>
+<p>セキュリティ対策ソフトウェアによる自動削除が発生した場合 プログラムが誤認により自動隔離または削除された場合は、以下の手順でファイルを復旧してください。</p>
+<ul>
+<li>Windows Defender（標準セキュリティ機能）の場合 1. タスクバーのセキュリティアイコンから『Windows セキュリティ』を起動します。2. 『ウイルスと脅威の防止』 ➜ 『保護の履歴』の順に選択します。3. 隔離された項目から本アプリを選択し、復元処理を実行します。4. 今後の誤検知を防ぐため、ファイルを配置したフォルダをスキャンの除外対象に設定してください。
+</li>
+<li>サードパーティ製セキュリティソフトの場合 各ソフトウェアの検知履歴から該当ファイルを隔離対象から除外し、信頼されたアプリケーションとして登録を行ってください。
+</li>
+</ul>
+<h2 id="h-8cbd43">設定と操作</h2>
+<p>本アプリケーションの各種設定は、Windowsがユーザーごとに用意しているファイル保存領域『AppDataフォルダ』の中に、config.json という設定ファイルとして自動的に作成・保存されます。これにより、PCの大切なシステム情報に不要な変更を加えたり、セキュリティ上のトラブルを引き起こしたりすることなく設定を維持することができます。</p>
+<h3 id="h-4ef0bb">設定</h3>
+<p>複数のOSCアプリを使う場合はOSCルーターの使用を推奨します。『停止』中のみ変更可能です。</p>
+<h4 id="h-a6d3c3">受信設定</h4>
+<ul>
+<li>受信ポート: VRChatやアセット側から送信されるデータを受け取るためのポート番号（初期値: 9001）を設定します。
+</li>
+</ul>
+<h4 id="h-11bea3">送信設定</h4>
+<ul>
+<li>送信先IP / 送信先ポート: VRChatへパケットを送り出す宛先（初期値: 127.0.0.1 / 9000）を設定します。通常は変更する必要はありません。
+</li>
+</ul>
+<h4 id="h-705ba0">転送設定</h4>
+<p>同一のPC上でポート『9001』を利用する他のOSCアプリケーションと並行稼働させる際に、データを本アプリケーション経由でバックグラウンド中継するための機能です。※中継データの整合性を担保するため、転送先IPは同一PCのローカルホスト（127.0.0.1）または十分に信頼できる家庭内ネットワークなどの閉じた接続環境でのみ運用してください。</p>
+<p>転送設定の実行手順</p>
+<ul>
+<li>本アプリと同時に動作させる外部ソフトウェアの受信ポート設定を、標準の9001から別の中継用番号（例: 9002）に変更します。
+</li>
+<li>本アプリケーションの『他のアプリに転送する』のチェックを有効にします。
+</li>
+<li>本アプリケーションの『転送先ポート』に、他ソフトウェア側で設定した中継ポート番号（例: 9002）を入力します。
+</li>
+<li>『設定保存』を実行して設定を記録し、アプリケーションが『開始』されている状態にします。
+</li>
+<li>本アプリケーションの稼働を確認した後、もう一方の外部ソフトウェアを起動します。
+</li>
+</ul>
+<h3 id="h-400a0c">運用手順</h3>
+<p>基本的に起動するだけで準備は完了し、特別な操作を必要としません。</p>
+<h4 id="h-a4f3b4">開始処理</h4>
+<ul>
+<li>VR169_Companion.exe を起動します。
+</li>
+<li>VRChatを起動し、VR169アセットがセットアップされているアバターをロードします。
+</li>
+<li>バックグラウンドで接続の確認が行われ、接続完了を示すログが記録されればシステム接続は完了です。接続の確認には約２秒かかります。
+</li>
+</ul>
+<h4 id="h-46599c">終了処理</h4>
+<ul>
+<li>監視動作を完全に終了してアプリケーションを閉じる場合は、ウィンドウ右上にある『×』ボタンをクリックしてください。内部の通信やスレッド処理をクリーンアップしたうえで自動的に終了します。
+</li>
+<li>アプリケーションを起動したまま、一時的に通信の監視のみを中断させたい場合は、画面内の『停止』ボタンをクリックしてください。
+</li>
+</ul>
+<h4 id="h-e693ad">設定の保存と初期化</h4>
+<ul>
+<li>手動保存『設定保存』をクリックすると、現在の画面入力値が設定ファイルに記録されます。書き込み権限の制限などで保存に失敗した場合は、ログ領域に赤文字で失敗した原因とエラー内容が出力されます。
+</li>
+<li>初期化『設定初期化』を実行すると、確認ダイアログの承認を経てすべての設定値が規定の初期パラメータへと書き換えられます。
+</li>
+</ul>
+<h4 id="h-c43d53">二重起動防止</h4>
+<p>本アプリケーションがすでにシステム内部で稼働している状況下で、誤って新たにアプリケーションファイルを起動した場合、二重起動防止システムがこれを検知します。警告画面を表示した上で、重複したプロセスを自動的に終了します。</p>
+<p>【画面上にアプリアクティブウインドウがないにもかかわらず二重起動の警告が表示される場合】前回の終了処理プロセスが完全にクローズされず、OSのタスク上に残留している可能性があります。数秒待ってから再起動を行うか、以下の手順でプロセスをクリアしてください。</p>
+<ul>
+<li>Ctrl + Shift + Esc キーを押下して、Windowsの『タスクマネージャー』を開きます。
+</li>
+<li>プロセス一覧から VR169_Companion.exe を探索して選択します。
+</li>
+<li>『タスクの終了』を実行してプロセスを強制クローズさせた後、改めてアプリケーションを起動します。
+</li>
+</ul>
+<h4 id="h-0a0f51">シャッターの操作</h4>
+<ul>
+<li>カメラハンドの操作と機能に従い、アバターでシャッターを切る操作を行ってください。
+</li>
+<li>ログにシャッターの入力を検知した旨が表示され、VRChatのカメラが撮影を行います。
+</li>
+</ul>
+<p>【注意】極稀にシャッターが切れないことがあります。さらなる安定化に向けて更新を続ける予定です。VR169とアプリの接続開始から約２秒間、および約１秒以内の連続した入力はシャッターの入力を破棄します。安定した動作、VRChatの仕様に対する処置です。ご了承ください。</p>
+<nav class="pager" aria-label="章の送り">
+<a class="prev" href="../vrchat/index.html"><span class="lbl">前</span><span class="ttl">VRChatの設定</span></a><a class="next" href="../controls/index.html"><span class="lbl">次</span><span class="ttl">VR169の操作</span></a></nav>
+</div>
+</main>
+<aside class="toc-right">
+<div class="inner">
+<a href="#h-68a8ba">概要</a>
+<a class="deep" href="#h-a8d4e2">主な機能</a>
+<a class="deep" href="#h-037658">動作仕様と制限</a>
+<a href="#h-b4aa66">導入方法</a>
+<a class="deep" href="#h-f91c78">配置手順</a>
+<a class="deep" href="#h-94ffab">セキュリティプロテクトの解除</a>
+<a href="#h-8cbd43">設定と操作</a>
+<a class="deep" href="#h-4ef0bb">設定</a>
+<a class="deep" href="#h-400a0c">運用手順</a>
+</div>
+</aside>
+</div>
+<footer>
+<div class="footer-inner">三号スタジオ 説明書 ／ <a href="https://sangoustudio.booth.pm/">BOOTH</a></div>
+</footer>
+<script>
+(function(){
+  var b=document.querySelector(".theme"); if(!b) return;
+  function now(){
+    var a=document.documentElement.getAttribute("data-theme");
+    if(a==="dark"||a==="light") return a;
+    return (window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";
+  }
+  function put(v){
+    document.documentElement.setAttribute("data-theme",v);
+    b.setAttribute("aria-pressed", v==="dark"?"true":"false");
+    try{localStorage.setItem("theme",v)}catch(e){}
+  }
+  b.setAttribute("aria-pressed", now()==="dark"?"true":"false");
+  b.addEventListener("click",function(){ put(now()==="dark"?"light":"dark") });
+})();
+</script>
+</body>
+</html>
