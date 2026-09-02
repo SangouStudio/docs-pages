@@ -1,0 +1,1128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<title>Operating VR169 | Sangou Studio Docs</title>
+<meta name="description" content="Manual for VR169.">
+<link rel="icon" href="../../../favicon.png">
+<link rel="apple-touch-icon" href="../../../apple-touch-icon.png">
+<style>
+
+:root {
+    --l-bg: #ffffff;  --l-bg-soft: #f6f8fa;  --l-bg-sunk: #eef1f4;
+  --l-fg: #1f2328;  --l-fg-muted: #59636e;
+  --l-line: #d8dee4; --l-line-soft: #e6eaef;
+  --l-accent: #0a58a8; --l-accent-bg: #eaf2fb;
+
+    --d-bg: #0f1216;  --d-bg-soft: #171b21;  --d-bg-sunk: #1d222a;
+  --d-fg: #e4e9ee;  --d-fg-muted: #9aa4af;
+  --d-line: #2e353e; --d-line-soft: #242a32;
+  --d-accent: #7cb7f5; --d-accent-bg: #172231;
+
+    color-scheme: light;
+  --bg: var(--l-bg);  --bg-soft: var(--l-bg-soft);  --bg-sunk: var(--l-bg-sunk);
+  --fg: var(--l-fg);  --fg-muted: var(--l-fg-muted);
+  --line: var(--l-line); --line-soft: var(--l-line-soft);
+  --accent: var(--l-accent); --accent-bg: var(--l-accent-bg);
+
+  --radius: 10px;
+  --measure: 44rem;     --side: 17rem;        --toc: 15rem;         --bar: 3.4rem;      }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: var(--d-bg);  --bg-soft: var(--d-bg-soft);  --bg-sunk: var(--d-bg-sunk);
+    --fg: var(--d-fg);  --fg-muted: var(--d-fg-muted);
+    --line: var(--d-line); --line-soft: var(--d-line-soft);
+    --accent: var(--d-accent); --accent-bg: var(--d-accent-bg);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: var(--d-bg);  --bg-soft: var(--d-bg-soft);  --bg-sunk: var(--d-bg-sunk);
+  --fg: var(--d-fg);  --fg-muted: var(--d-fg-muted);
+  --line: var(--d-line); --line-soft: var(--d-line-soft);
+  --accent: var(--d-accent); --accent-bg: var(--d-accent-bg);
+}
+:root[data-theme="light"] { color-scheme: light; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--fg);
+  background: var(--bg);
+  overflow-wrap: break-word;
+  word-break: normal;
+  line-break: strict;
+}
+
+a { color: var(--accent); }
+
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar-inner {
+  padding: 0 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  min-height: var(--bar);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--fg);
+  white-space: nowrap;
+}
+.brand img { display: block; }
+
+.bar .spacer { flex: 1 1 auto; }
+
+.langs { display: flex; gap: .4rem; white-space: nowrap; }
+.langs a {
+  font-size: .84rem;
+  text-decoration: none;
+  color: var(--fg-muted);
+  padding: .16rem .55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.langs a[aria-current="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.theme {
+  font: inherit;
+  font-size: .95rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--fg-muted);
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .35rem .55rem;
+}
+.theme:hover { color: var(--fg); border-color: var(--accent); }
+.theme::before { content: "\263C"; }                    .theme[aria-pressed="true"]::before { content: "\263D"; } 
+.menu { display: none; }
+.menu > summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: .9rem;
+  padding: .3rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  white-space: nowrap;
+}
+.menu > summary::-webkit-details-marker { display: none; }
+.menu > summary::before { content: "\2630"; margin-right: .45rem; }
+.menu[open] > summary::before { content: "\00d7"; }
+
+.menu-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  max-height: calc(100dvh - var(--bar));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  padding: .6rem 1.1rem 1.4rem;
+  box-shadow: 0 8px 24px rgb(0 0 0 / .10);
+}
+
+
+.crumb {
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--bg-soft);
+  padding: .5rem 1.1rem;
+  font-size: .84rem;
+  color: var(--fg-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  align-items: center;
+}
+.crumb a { color: var(--fg-muted); text-decoration: none; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.crumb [aria-current="page"] { color: var(--fg); }
+.crumb span[aria-hidden] { opacity: .6; }
+
+.crumb .shop {
+  margin-left: auto;
+  color: var(--accent);
+  white-space: nowrap;
+  padding: .1rem .6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.crumb .shop::after { content: " \2192"; }
+.crumb .shop:hover { border-color: var(--accent); background: var(--accent-bg); text-decoration: none; }
+
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--side) minmax(0, 1fr) var(--toc);
+  align-items: start;
+}
+.shell.solo { grid-template-columns: minmax(0, 1fr); }
+.shell.two  { grid-template-columns: minmax(0, 1fr) var(--toc); }
+
+.side {
+  position: sticky;
+  top: var(--bar);
+  height: calc(100vh - var(--bar));
+  height: calc(100dvh - var(--bar));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-right: 1px solid var(--line);
+  padding: 1.2rem .9rem 3rem;
+  background: var(--bg-soft);
+}
+
+.toc-right {
+  position: sticky;
+  top: var(--bar);
+  max-height: calc(100vh - var(--bar));
+  max-height: calc(100dvh - var(--bar));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.4rem 1rem 3rem 0;
+}
+
+main {
+  min-width: 0;
+  padding: 1.6rem 1.6rem 5rem;
+  display: flex;
+  justify-content: center;
+}
+.doc { width: 100%; max-width: var(--measure); }
+
+
+.toc, .toc ul { list-style: none; margin: 0; padding: 0; }
+
+.toc .sec {
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--fg-muted);
+  margin: 1.1rem 0 .35rem;
+  padding: 0 .55rem;
+}
+.toc .sec:first-child { margin-top: 0; }
+
+.toc a {
+  display: block;
+  text-decoration: none;
+  color: var(--fg);
+  font-size: .92rem;
+  line-height: 1.55;
+  padding: .34rem .55rem;
+  border-radius: var(--radius);
+}
+.toc a:hover { background: var(--bg-sunk); }
+.toc a[aria-current="page"] {
+  color: var(--accent);
+  background: var(--accent-bg);
+  font-weight: 700;
+}
+
+.inner { border-left: 1px solid var(--line); }
+.inner a {
+  display: block;
+  text-decoration: none;
+  font-size: .86rem;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  padding: .22rem .7rem;
+}
+.inner a:hover { color: var(--accent); }
+.inner a.deep { padding-left: 1.6rem; }
+
+.toc .inner { margin: .1rem 0 .5rem .9rem; }
+
+
+.doc h1 {
+  font-size: 1.72rem;
+  line-height: 1.45;
+  margin: 0 0 1.6rem;
+  padding-bottom: .7rem;
+  border-bottom: 1px solid var(--line);
+}
+.doc h2 {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  margin: 2.8rem 0 .9rem;
+  padding-bottom: .35rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+.doc h3 { font-size: 1.08rem; margin: 2rem 0 .7rem; }
+.doc h4 { font-size: 1rem; margin: 1.5rem 0 .5rem; color: var(--fg-muted); }
+
+.doc h2, .doc h3, .doc h4 { scroll-margin-top: calc(var(--bar) + 1rem); }
+
+.doc p { margin: 0 0 1.1rem; }
+.doc ul, .doc ol { margin: 0 0 1.1rem; padding-left: 1.6rem; }
+.doc li { margin: .25rem 0; }
+.doc li > ul, .doc li > ol { margin: .25rem 0 .35rem; }
+
+.doc figure { margin: 1.3rem 0; }
+.doc img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; }
+.doc figcaption { font-size: .85rem; color: var(--fg-muted); margin-top: .4rem; }
+
+.doc code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Courier New", monospace;
+  font-size: .92em;
+  background: var(--bg-sunk);
+  padding: .1rem .35rem;
+  border-radius: 5px;
+}
+
+.doc pre {
+  overflow-x: auto;
+  margin: 1.2rem 0;
+  padding: .8rem 1rem;
+  background: var(--bg-sunk);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  line-height: 1.75;
+}
+.doc pre code { background: none; padding: 0; border-radius: 0; }
+
+.doc blockquote {
+  margin: 1.2rem 0;
+  padding: .1rem 1rem;
+  border-left: 4px solid var(--line);
+  color: var(--fg-muted);
+}
+
+.cards { display: grid; gap: .9rem; margin: 1.6rem 0; }
+.cards a {
+  display: block;
+  text-decoration: none;
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  background: var(--bg-soft);
+}
+.cards a:hover { border-color: var(--accent); }
+.cards .ttl { display: block; font-weight: 700; color: var(--accent); }
+.cards .sub { display: block; font-size: .86rem; color: var(--fg-muted); }
+
+.table-wrap { overflow-x: auto; margin: 1.3rem 0; }
+.doc table { border-collapse: collapse; width: 100%; font-size: .93rem; }
+.doc th, .doc td {
+  border: 1px solid var(--line);
+  padding: .5rem .7rem;
+  text-align: left;
+  vertical-align: top;
+}
+.doc th { background: var(--bg-soft); font-weight: 700; white-space: nowrap; }
+
+.pager {
+  display: flex;
+  gap: .8rem;
+  margin-top: 3.5rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+.pager a {
+  flex: 1 1 0;
+  min-width: 0;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .7rem .9rem;
+}
+.pager a:hover { border-color: var(--accent); }
+.pager .lbl { display: block; font-size: .76rem; color: var(--fg-muted); }
+.pager .ttl { display: block; color: var(--accent); font-weight: 700; }
+.pager .next { text-align: right; margin-left: auto; }
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 1.6rem 1.1rem 2.4rem;
+  font-size: .85rem;
+  color: var(--fg-muted);
+}
+footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
+
+
+@media (max-width: 78rem) {
+  .shell { grid-template-columns: var(--side) minmax(0, 1fr); }
+  .shell.two { grid-template-columns: minmax(0, 1fr); }
+  .toc-right { display: none; }
+}
+
+
+@media (max-width: 64rem) {
+  .shell, .shell.solo, .shell.two { grid-template-columns: minmax(0, 1fr); }
+  .side { display: none; }
+  .menu { display: block; }
+  main { padding: 1.3rem 1.1rem 4rem; }
+  .brand-text { display: none; }
+}
+
+@media (max-width: 34rem) {
+  body { font-size: 15.5px; }
+  .doc h1 { font-size: 1.45rem; }
+  .doc h2 { font-size: 1.18rem; }
+  .pager { flex-direction: column; }
+  .pager .next { text-align: left; margin-left: 0; }
+}
+
+@media print {
+  .bar, .side, .toc-right, .menu, .crumb, .pager, footer { display: none; }
+  .shell { display: block; }
+  main { padding: 0; display: block; }
+  .doc { max-width: none; }
+}
+</style>
+</head>
+<body>
+<header class="bar">
+<div class="bar-inner">
+<a class="brand" href="../../../"><img src="../../../assets/mark.png" alt="" width="24" height="24"><span class="brand-text">Sangou Studio Docs</span></a>
+<details class="menu">
+<summary>Contents</summary>
+<div class="menu-panel">
+<nav class="toc">
+<p class="sec">VR169</p>
+<a href="../index.html">VR169 VL2 — Manual</a>
+<a href="../terms/index.html">Terms of Use and Important Notes</a>
+<a href="../install/index.html">Installing on your avatar</a>
+<a href="../vrchat/index.html">VRChat settings</a>
+<a href="../companion/index.html">VR169 Companion</a>
+<a href="../controls/index.html" aria-current="page">Operating VR169</a>
+<a href="../exmenu/index.html">The ExMenu and parameters</a>
+<a href="../changelog/index.html">Update history</a>
+</nav>
+<div class="inner">
+<a href="#h-29ad7f">Operation videos</a>
+<a href="#h-4c1e6a">Part names</a>
+<a href="#h-028fdf">Starting and stopping</a>
+<a class="deep" href="#h-a92667">Starting</a>
+<a class="deep" href="#h-40a619">Stopping</a>
+<a href="#h-f1447b">Checking the connection to VR169 Companion</a>
+<a href="#h-54db3d">Levers: operation and functions</a>
+<a class="deep" href="#h-562665">Deploying and stowing</a>
+<a class="deep" href="#h-a43a4a">Basic functions</a>
+<a class="deep" href="#h-26f3e1">Extra functions</a>
+<a href="#h-6963c7">The monitor: operation and functions</a>
+<a class="deep" href="#h-5d2d45">Tilt</a>
+<a class="deep" href="#h-3cd222">Revolving</a>
+<a href="#h-5c0101">Switches: operation and functions</a>
+<a class="deep" href="#h-9d3db5">Basic operation</a>
+<a class="deep" href="#h-b9a93c">Focus</a>
+<a class="deep" href="#h-75fec3">Camera placement mode</a>
+<a class="deep" href="#h-61dd1d">Other</a>
+<a href="#h-f9c87a">The camera hand: operation and functions</a>
+<a class="deep" href="#h-fe962d">Camera hand modes</a>
+<a class="deep" href="#h-069b3e">Function details</a>
+</div>
+</div>
+</details>
+<span class="spacer"></span>
+<div class="langs"><a href="../../">日本語</a><a href="../../en/" aria-current="true">English</a></div><button class="theme" type="button" aria-pressed="false" aria-label="Switch colour theme" title="Switch colour theme"></button>
+</div>
+</header>
+<nav class="crumb" aria-label="breadcrumb">
+<a href="../../../">Sangou Studio Docs</a><span aria-hidden="true">&rsaquo;</span><a href="../../">VR169</a><span aria-hidden="true">&rsaquo;</span><span aria-current="page">Operating VR169</span>
+<a class="shop" href="https://sangoustudio.booth.pm/items/7546821">Product page (BOOTH)</a>
+</nav>
+<div class="shell">
+<div class="side">
+<nav class="toc">
+<p class="sec">VR169</p>
+<a href="../index.html">VR169 VL2 — Manual</a>
+<a href="../terms/index.html">Terms of Use and Important Notes</a>
+<a href="../install/index.html">Installing on your avatar</a>
+<a href="../vrchat/index.html">VRChat settings</a>
+<a href="../companion/index.html">VR169 Companion</a>
+<a href="../controls/index.html" aria-current="page">Operating VR169</a>
+<a href="../exmenu/index.html">The ExMenu and parameters</a>
+<a href="../changelog/index.html">Update history</a>
+</nav>
+</div>
+<main>
+<div class="doc">
+<h1 id="h-a7b6aa">Operating VR169</h1>
+<h2 id="h-29ad7f">Operation videos</h2>
+<ul>
+<li>VR169 quick start, for 1.2.0 <a href="https://youtu.be/YmkkYrfky-M">https://youtu.be/YmkkYrfky-M</a>
+</li>
+<li>VR169 operation guide, for 1.2.0 \* currently in production
+</li>
+</ul>
+<h2 id="h-4c1e6a">Part names</h2>
+<figure><img src="../../images/image11.png" alt="image11.png" loading="lazy"></figure>
+<figure><img src="../../images/image10.png" alt="image10.png" loading="lazy"></figure>
+<h2 id="h-028fdf">Starting and stopping</h2>
+<h3 id="h-a92667">Starting</h3>
+<h4 id="h-272265">Linked start</h4>
+<ul>
+<li>Open the standard VRChat camera.
+</li>
+<li>VR169 starts automatically.
+</li>
+</ul>
+<p>VR169 Companion must be running.</p>
+<p>If you do not want the linked start, configure it from the VR169 Ex menu.</p>
+<p>The linked start does not happen for about two seconds from the moment VR169 and VR169 Companion connect. To turn the linked start off, use the VR169 Ex menu (Settings ➜ VR169 Companion ➜ AutoActive). Once you switch it off, the setting is kept.</p>
+<h4 id="h-ed2227">Starting with a gesture and avatar movement</h4>
+<ul>
+<li>Look at the back of the wrist of your camera hand, near the centre of your view.
+</li>
+<li>Make the camera hand's gesture Fist.
+</li>
+<li>Turn your wrist over quickly and look at the palm side of the wrist.
+</li>
+<li>Turn your wrist over quickly again and look at the back of the wrist once more.
+</li>
+<li>Snap your hand as if beckoning.
+</li>
+</ul>
+<p>Use the same steps to bring VR169 back from a hidden state.</p>
+<h4 id="h-6c8a71">Starting from the ExMenu</h4>
+<ul>
+<li>Start VirtualLens2 from the VRChat Expressions Menu.
+</li>
+</ul>
+<h3 id="h-40a619">Stopping</h3>
+<h4 id="h-370b52">Linked stop</h4>
+<ul>
+<li>Close the standard VRChat camera.
+</li>
+<li>VR169 stops automatically.
+</li>
+</ul>
+<p>VR169 Companion must be running.</p>
+<p>If you do not want the linked stop, configure it from the VR169 Ex menu.</p>
+<p>The linked stop does not happen for about two seconds from the moment VR169 and VR169 Companion connect. To turn it off, use the VR169 Ex menu (Settings ➜ VR169 Companion ➜ AutoActive). Once you switch it off, the setting is kept.</p>
+<h4 id="h-215caf">Stopping with a gesture and avatar movement</h4>
+<p>While VR169 is hidden, this operation is disabled, to prevent an accidental shutdown from an unintended movement. Show it again first if you want to stop it.</p>
+<ul>
+<li>Look at the back of the wrist of your camera hand, near the centre of your view.
+</li>
+<li>Make the camera hand's gesture Fist.
+</li>
+<li>Turn your wrist over quickly and look at the palm side of the wrist.
+</li>
+<li>Turn your wrist over quickly again and look at the back of the wrist once more.
+</li>
+</ul>
+<h4 id="h-e6414d">Stopping from the menu</h4>
+<ul>
+<li>Close VirtualLens2 from the VRChat Expressions Menu.
+</li>
+</ul>
+<h2 id="h-f1447b">Checking the connection to VR169 Companion</h2>
+<p>When VR169 and VR169 Companion are connected correctly, indicator 1 lights up.</p>
+<h2 id="h-54db3d">Levers: operation and functions</h2>
+<p>This section covers the two virtual levers on the VR169 body. Depending on the settings they handle &quot;zoom&quot; and &quot;aperture&quot;, and they also take intuitive analogue input such as manual focus.</p>
+<h3 id="h-562665">Deploying and stowing</h3>
+<p>How the levers are operated.</p>
+<p>Deploying and stowing</p>
+<ul>
+<li>When the interface deploys automatically: bring VR169 into view and move your free hand near the levers, and they deploy automatically. Move it out of view and let go, and they stow.
+</li>
+<li>When automatic deployment is off: use the ExMenu and switch manual deployment to &quot;Deploy&quot; or &quot;Stow&quot;.
+</li>
+</ul>
+<h3 id="h-a43a4a">Basic functions</h3>
+<p>How to operate them</p>
+<ul>
+<li>Grab and move: put your free hand over the lever you want and move your hand while grabbing. Let go to release the grab.
+</li>
+</ul>
+<p>The character and default setting of each lever</p>
+<ul>
+<li>Lever 1: the default target is &quot;zoom&quot;. From the user's viewpoint this is a straight up-and-down movement, so the direction follows the up-and-down operation of typical equipment such as ENG and powered zoom controllers.
+</li>
+<li>Lever 2: the default target is &quot;aperture&quot;. From the user's viewpoint this is a rotary movement, so the direction is designed after the controls of real photographic equipment and cinema lenses.
+</li>
+</ul>
+<p>Normal state</p>
+<p>Zoom and aperture can be operated with their respective levers.</p>
+<p>The assignment can be swapped in the ExMenu settings.</p>
+<ul>
+<li>Normal lever choice &quot;Standard&quot;
+<ul>
+<li>Lever 1: zoom
+<ul>
+<li>Raise the lever: longer focal length (subject larger, narrower field)
+</li>
+<li>Lower the lever: shorter focal length (subject smaller, wider field)
+</li>
+</ul>
+</li>
+<li>Lever 2: aperture
+<ul>
+<li>Raise the lever: close the aperture (less blur)
+</li>
+<li>Lower the lever: open the aperture (more blur)
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Normal lever choice &quot;Swapped&quot;
+</li>
+<li>Lever 1: aperture
+<ul>
+<li>Raise the lever: open the aperture (more blur)
+</li>
+<li>Lower the lever: close the aperture (less blur)
+</li>
+</ul>
+</li>
+<li>Lever 2: zoom
+<ul>
+<li>Raise the lever: shorter focal length (zoom out; subject smaller, wider field)
+</li>
+<li>Lower the lever: longer focal length (zoom in; subject larger, narrower field)
+</li>
+</ul>
+</li>
+</ul>
+<p>In focus mode &quot;Manual&quot;</p>
+<p>The lever adjusts focus by hand (manual focus). By a switch operation, or in the settings, this lever can be changed back to its usual role of &quot;zoom&quot; or &quot;aperture&quot;.</p>
+<ul>
+<li>MF lever choice: &quot;Lever 1&quot;
+<ul>
+<li>Lever 1: manual focus
+<ul>
+<li>Raise the lever: move the focus point further away
+</li>
+<li>Lower the lever: move the focus point closer
+</li>
+</ul>
+</li>
+<li>Lever 2: same as in the normal state
+</li>
+</ul>
+</li>
+<li>MF lever choice: &quot;Lever 2&quot;
+<ul>
+<li>Lever 1: same as in the normal state
+</li>
+<li>Lever 2: manual focus
+<ul>
+<li>Raise the lever: move the focus point closer
+</li>
+<li>Lower the lever: move the focus point further away
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>In camera placement mode &quot;Selfie&quot;</p>
+<p>The lever adjusts the distance to the camera. By a switch operation, or in the settings, this lever can be changed back to its usual role of &quot;zoom&quot; or &quot;aperture&quot;.</p>
+<ul>
+<li>Camera distance lever choice: &quot;Lever 1&quot;
+<ul>
+<li>Lever 1
+<ul>
+<li>Raise the lever: move the camera away from you
+</li>
+<li>Lower the lever: bring the camera closer to you
+</li>
+</ul>
+</li>
+<li>Lever 2
+<ul>
+<li>Same as in the normal state
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Camera distance lever choice: &quot;Lever 2&quot;
+<ul>
+<li>Lever 1
+<ul>
+<li>Same as in the normal state
+</li>
+</ul>
+</li>
+<li>Lever 2
+<ul>
+<li>Raise the lever: bring the camera closer to you
+</li>
+<li>Lower the lever: move the camera away from you
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="h-26f3e1">Extra functions</h3>
+<h4 id="h-932f87">QuickCall</h4>
+<p>Pull the trigger while holding a lever, and the VirtualLens2 QuickCall you set beforehand is called. Lever 1 and lever 2 can each have a different QuickCall. Which QuickCall is assigned can be changed in the ExMenu settings.</p>
+<p>[How to operate]</p>
+<ul>
+<li>With the lever grabbed, pull the trigger on your free hand to run the function.
+</li>
+</ul>
+<h2 id="h-6963c7">The monitor: operation and functions</h2>
+<p>This section covers the monitor on the back of the VR169 body. It has a physically movable mechanism, to suit your shooting posture and changes of composition.</p>
+<h3 id="h-5d2d45">Tilt</h3>
+<p>You can tilt the monitor up and down. As well as holding the camera at eye height, this makes &quot;waist-level shooting&quot; comfortable — lowering the camera to chest or waist height and looking down at the monitor.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Grab near the bottom of the monitor and move it up and down to the angle you like.
+</li>
+</ul>
+<p>[Note] The grab position is offset a little downwards, so that the focus point of point AF does not move needlessly.</p>
+<h3 id="h-3cd222">Revolving</h3>
+<p>This rotates only the monitor and the camera sensor object, without turning the VR169 body or twisting your wrist. It switches the composition between &quot;landscape (horizontal)&quot; and &quot;portrait (vertical)&quot; instantly, while you stay in a comfortable posture.</p>
+<p>[How to operate]</p>
+<ul>
+<li>With the monitor grabbed, pull the trigger on your free hand. When the function runs, the free hand releases the monitor automatically.
+</li>
+</ul>
+<p>[Note]</p>
+<p>Revolving is a mechanism found on real large-format and medium-format cameras: rather than moving the heavy camera body on its tripod, only the part holding the film or sensor rotates, and the composition changes. VR169 reproduces this smooth change of composition — routine for professionals — as a practical VR experience.</p>
+<h2 id="h-5c0101">Switches: operation and functions</h2>
+<p>This section covers the virtual switches on VR169. Using the switches, you can operate the various functions of VirtualLens2 without opening the ExMenu.</p>
+<h3 id="h-9d3db5">Basic operation</h3>
+<p>How to press the various switches on the body.</p>
+<h4 id="h-a5db42">Input in gesture mode</h4>
+<p>This is a safety mechanism: switching the gesture on your free hand lets you press a switch reliably while preventing accidental operation.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Bring the switch you want to press into view.
+</li>
+<li>Set your free hand to the &quot;switch gesture&quot; (default: Victory).
+</li>
+<li>Push your index finger into the switch, then release it.
+</li>
+<li>The switch is entered; once the function has run, release the gesture.
+</li>
+</ul>
+<p>[Notes]</p>
+<ul>
+<li>The switch gesture can be changed in the settings.
+</li>
+<li>If you release the switch gesture without taking your index finger off the switch, the function does not run and the input is cancelled.
+</li>
+</ul>
+<h4 id="h-e233e5">Input in direct mode (in development)</h4>
+<p>This form of operation drops the gesture safety mechanism. It is intended for use with hand tracking and similar, where gestures are disabled on the VRChat side.</p>
+<h4 id="h-025e52">Function</h4>
+<p>As well as their normal roles, switches 1 to 4 can each be switched to a different role by pressing the &quot;function switch&quot;.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press the function switch on the body, then press the switch you want.
+</li>
+<li>To clear the function state, either release the switch gesture or press the function switch again.
+</li>
+</ul>
+<h3 id="h-b9a93c">Focus</h3>
+<h4 id="h-aa4e8f">Changing the focus mode</h4>
+<p>Change the VirtualLens2 focus mode with the VR169 switches.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press switch 3. The switches on the body change to the &quot;focus mode selection state&quot;.
+</li>
+<li>Press the switch for the mode you want.
+<ul>
+<li>Switch 1: Manual
+</li>
+<li>Switch 2: Point AF
+</li>
+<li>Switch 3: Selfie AF
+</li>
+<li>Switch 4: Face AF
+</li>
+</ul>
+</li>
+<li>The chosen focus mode is applied, and the switches return to their normal roles automatically.
+</li>
+</ul>
+<p>[How to cancel]</p>
+<p>To return the switches to their normal state without choosing anything while in the focus mode selection state, do either of the following.</p>
+<ul>
+<li>Press the function switch.
+</li>
+<li>Release the switch input gesture.
+</li>
+</ul>
+<h4 id="h-9dc2b2">Focus lock</h4>
+<p>Operate the VirtualLens2 focus lock from VR169. It fixes the focus position, preventing unintended defocus caused by the camera moving or by movement around you. This function works only when the focus mode is &quot;Point AF&quot; or &quot;Face AF&quot;.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press switch 2. It toggles between enabled and disabled.
+</li>
+</ul>
+<p>[Note]</p>
+<p>You can also apply the focus lock with a camera-hand gesture. See &quot;The camera hand: operation and functions&quot;.</p>
+<h4 id="h-775618">Focus point mode</h4>
+<p>This changes how the focus point (cursor) used in the &quot;Point AF&quot; focus mode is controlled. It can be operated from VR169 only when the focus mode is &quot;Point AF&quot;. From the ExMenu it can be operated regardless of the focus mode.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press the function switch.
+</li>
+<li>Press switch 2. The switches change to the &quot;focus point mode selection state&quot;.
+</li>
+<li>Press the switch for the mode you want.
+<ul>
+<li>Switch 1: not assigned
+</li>
+<li>Switch 2: Normal
+</li>
+<li>Switch 3: pseudo gaze-controlled AF (Face Aim)
+</li>
+<li>Switch 4: Center Lock
+</li>
+</ul>
+</li>
+<li>The chosen focus point mode is applied, and the switches return to their normal roles automatically.
+</li>
+</ul>
+<p>[How to cancel]</p>
+<p>To return the switches to their normal state without choosing anything while in the focus point mode selection state, do either of the following.</p>
+<ul>
+<li>Press the function switch.
+</li>
+<li>Release the switch input gesture.
+</li>
+</ul>
+<p>[About the modes]</p>
+<ul>
+<li>Normal: you move the cursor with the fingertip set in VirtualLens2. This is the same as standard VirtualLens2 behaviour.
+</li>
+<li>Pseudo gaze-controlled AF (Face Aim): you move the focus cursor with the direction of your face. The standard VirtualLens2 fingertip operation also remains active. \* Precise eye tracking is not yet common, so operating by real gaze is not practical today. The movement of turning your face is used instead. Within the limited field of view of an HMD, looking at something naturally means turning your face towards it, so we call it &quot;pseudo gaze control&quot;.
+</li>
+<li>Center Lock: the cursor is fixed at the centre.
+</li>
+</ul>
+<h4 id="h-6e3944">Swapping the manual focus lever</h4>
+<p>When the focus mode is &quot;Manual&quot;, this chooses which lever controls focus on VR169. It can be operated from VR169 only when the focus mode is &quot;Manual&quot;. From the ExMenu it can be operated regardless of the focus mode.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press switch 2. The assignment changes between lever 1 and lever 2.
+</li>
+</ul>
+<p>[Note]</p>
+<p>For the direction each lever moves, see &quot;Levers: operation and functions&quot;.</p>
+<h4 id="h-e1ca56">Focus mode restrictions</h4>
+<p>The restrictions on combining camera placement mode with focus mode are as follows.</p>
+<ul>
+<li>Manual is not allowed in selfie mode. If you change the camera placement mode to &quot;Selfie&quot; while the focus mode is &quot;Manual&quot;, the focus mode is forced to &quot;Selfie AF&quot; automatically, regardless of the &quot;selfie-linked Selfie AF&quot; setting in the ExMenu.
+</li>
+</ul>
+<h3 id="h-75fec3">Camera placement mode</h3>
+<h4 id="h-5d1715">How switching works</h4>
+<p>The VR169 switches control the position and orientation of VirtualLens2.</p>
+<p>[Button assignment]</p>
+<p>Press switch 4 in the normal state to enter the &quot;camera placement mode selection state&quot;. Each switch then corresponds to one of the following modes.</p>
+<ul>
+<li>Switch 1: Drone
+</li>
+<li>Switch 2: Reposition
+</li>
+<li>Switch 3: Selfie
+</li>
+<li>Switch 4: Hand / Fix (world-fixed)
+</li>
+</ul>
+<p>[How to cancel]</p>
+<p>To return the switches to their normal state without choosing anything while in the camera placement mode selection state, do either of the following.</p>
+<ul>
+<li>Press the function switch.
+</li>
+<li>Release the switch input gesture.
+</li>
+</ul>
+<h4 id="h-950202">Switching to &quot;Fix&quot; (world-fixed)</h4>
+<p>This controls VirtualLens2 and fixes VR169 in world space.</p>
+<p>You can switch to it from any camera placement mode other than &quot;Fix&quot;.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press switch 4. The switches enter the camera placement mode selection state.
+</li>
+<li>Press switch 4. The camera placement mode becomes &quot;Fix&quot;. The switches return to their normal state.
+</li>
+</ul>
+<h4 id="h-6dbd07">Switching to &quot;Hand&quot;</h4>
+<p>This controls VirtualLens2 and puts VR169 into the camera hand. You can switch to it only from the &quot;Fix&quot; camera placement mode.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press switch 4. The switches enter the camera placement mode selection state.
+</li>
+<li>Press switch 4. The camera placement mode becomes &quot;Hand&quot;. The switches return to their normal state.
+</li>
+</ul>
+<h4 id="h-a4b784">Switching to &quot;Drone&quot;</h4>
+<p>This uses the VirtualLens2 &quot;Drone&quot; function.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press switch 4. The switches enter the camera placement mode selection state.
+</li>
+<li>Press switch 1. The camera placement mode changes to the &quot;drone ready&quot; state. The switches return to their normal state.
+</li>
+<li>Put your free hand at the point in space you want to use as the origin for drone operation.
+</li>
+<li>Move the VR169 body and press switch 4 on the body again, as if pressing it against your free hand.
+</li>
+<li>A gizmo appears in space and drone mode is enabled.
+</li>
+</ul>
+<p>[Limitations]</p>
+<p>Operations performed with the Drone 2D Puppet in the VirtualLens2 ExMenu cannot be performed from VR169. Change the camera's orientation with the orientation of the VR169 body.</p>
+<h4 id="h-374565">Switching to &quot;Reposition&quot;</h4>
+<p>This uses the VirtualLens2 &quot;Reposition&quot; function. For the movement scaling during reposition, two of the four ratios provided by VirtualLens2 are picked out as High and Low, and switched between with a switch. Which ratio is assigned to High and to Low can be set in the ExMenu.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press switch 4. The switches enter the camera placement mode selection state.
+</li>
+<li>Press switch 2. The camera placement mode changes to the &quot;reposition ready&quot; state. The switches return to their normal state, and a gizmo for adjusting the position appears in front of your chest.
+</li>
+<li>Press switch 4 again. The gizmo disappears and the camera placement mode becomes &quot;Reposition&quot;.
+</li>
+</ul>
+<h4 id="h-502cf9">Switching to &quot;Selfie&quot;</h4>
+<p>This uses the VirtualLens2 &quot;selfie mode&quot;.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press switch 4. The switches enter the camera placement mode selection state.
+</li>
+<li>Press switch 3. The camera placement mode becomes &quot;Selfie&quot;. The switches return to their normal state.
+</li>
+</ul>
+<p>[Automatic focus linking]</p>
+<ul>
+<li>Automatic change of focus mode: while the camera placement mode is &quot;Selfie&quot;, the focus mode changes to &quot;Selfie AF&quot; automatically and is fixed there.
+</li>
+</ul>
+<p>[Note]</p>
+<ul>
+<li>Focus peaking is not drawn correctly during selfie mode. This is how VirtualLens2 works.
+</li>
+</ul>
+<h4 id="h-f255a4">Switching the reposition scale</h4>
+<p>This switches the amount the camera moves in the &quot;Reposition&quot; camera placement mode, between High and Low. How the four ratios provided by VirtualLens2 are assigned to High and Low can be set in the ExMenu.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Set the camera placement mode to Reposition.
+</li>
+<li>Press the function switch.
+</li>
+<li>Press switch 4.
+</li>
+</ul>
+<h4 id="h-dcae4e">Swapping the selfie camera distance lever</h4>
+<p>When the camera placement mode is &quot;Selfie&quot;, this chooses which lever controls the distance to the camera on VR169. This function works only when the camera placement mode is &quot;Selfie&quot;. Because the focus mode is fixed to &quot;Selfie AF&quot; in that mode, switch 2 changes to this function automatically.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press switch 2. Each press changes the distance assignment between lever 1 and lever 2.
+</li>
+</ul>
+<h3 id="h-61dd1d">Other</h3>
+<h4 id="h-005abb">Model display</h4>
+<p>This hides the VR169 3D model. The levers and other controls also become unusable.</p>
+<p>It is meant for when you are photographing yourself.</p>
+<p>While hidden, the stop action is not accepted, for safety.</p>
+<p>[How to hide] Do either of the following.</p>
+<ul>
+<li>Press switch 1.
+</li>
+<li>Operate it from the ExMenu.
+</li>
+</ul>
+<p>[How to show] Do either of the following.</p>
+<ul>
+<li>Perform the same action as when starting it.
+</li>
+<li>Operate it from the ExMenu.
+</li>
+</ul>
+<h4 id="h-13064b">HUD</h4>
+<p>This toggles the VirtualLens2 &quot;preview HUD&quot; on and off.</p>
+<p>The initial state follows the VirtualLens2 settings.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press the function switch.
+</li>
+<li>Press switch 1.
+</li>
+</ul>
+<h4 id="h-5785bd">Auto Leveler</h4>
+<p>This operates the VirtualLens2 &quot;Auto Leveler&quot; function.</p>
+<p>The initial state follows the VirtualLens2 settings.</p>
+<p>Auto Snap is omitted.</p>
+<p>For automatic revolving linked to the auto leveler, see the VR169 behaviour settings.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press the function switch.
+</li>
+<li>Press switch 3. The switches enter the &quot;auto leveler selection state&quot;.
+</li>
+<li>Press the switch for the mode you want.
+<ul>
+<li>Switch 1: not assigned
+</li>
+<li>Switch 2: Off
+</li>
+<li>Switch 3: Landscape
+</li>
+<li>Switch 4: Portrait
+</li>
+</ul>
+</li>
+<li>The chosen auto leveler state is applied, and the switches return to their normal state automatically.
+</li>
+</ul>
+<h4 id="h-a1961e">Grid</h4>
+<p>This operates the VirtualLens2 &quot;grid&quot;. By default it cycles through custom grids 1 to 3, but in the ExMenu settings you can switch to a mode that operates the &quot;standard grid&quot; instead. VR169 comes with images for the custom grids. See the appendix for details.</p>
+<p>[How to operate]</p>
+<ul>
+<li>Press the function switch.
+</li>
+<li>Press switch 4. The switches enter the &quot;grid selection state&quot;.
+</li>
+<li>Press the switch for the mode you want.
+<ul>
+<li>Switch 1: off
+</li>
+<li>Switch 2: custom grid 1 / 3x3
+</li>
+<li>Switch 3: custom grid 2 / 3x3 with diagonals
+</li>
+<li>Switch 4: custom grid 3 / 6x4
+</li>
+</ul>
+</li>
+<li>The chosen grid state is applied, and the switches return to their normal state automatically.
+</li>
+</ul>
+<h2 id="h-f9c87a">The camera hand: operation and functions</h2>
+<p>This section covers the shooting operations of VR169 performed with camera-hand gestures. To use the shutter function, &quot;VR169 Companion&quot; must be running on your PC. See the relevant section for details.</p>
+<h3 id="h-fe962d">Camera hand modes</h3>
+<p>Several patterns are provided for which gesture is assigned to which shooting function. You can switch between them in the ExMenu, to suit your play style and taste. The combined &quot;focus operation + shutter operation&quot; gesture is used with &quot;AF drive&quot;, described under the function details below.</p>
+<ul>
+<li>Trigger (default): a mode in which the trigger operated by your index finger on a Quest or similar controller stands in for the camera shutter, so you shoot with a physical feel. Because of how VRChat works, the input may not register in some situations, such as while the Quick Menu is open. Because of how VRChat gestures work, AF drive cannot be performed by the focus operation.
+<ul>
+<li>Focus operation: Point or Fist
+</li>
+<li>Shutter operation: Victory ➜ RockNRoll
+</li>
+<li>Focus + shutter operation: \* toggle only; AF drive not available
+</li>
+</ul>
+</li>
+<li>Quick: a mode for fast operation with the smallest possible hand movements. HandOpen is the resting posture; the thumb performs the focus operation and the index finger the shutter operation.
+<ul>
+<li>Focus operation: Victory
+</li>
+<li>Shutter operation: HandOpen ➜ Neutral
+</li>
+<li>Focus + shutter operation: Victory ➜ Neutral
+</li>
+</ul>
+</li>
+<li>Grip: a mode that puts preventing accidental operation first, using the controller's &quot;grab&quot; as a safety catch. Gun is the resting posture; the thumb performs the focus operation and the index finger the shutter operation.
+<ul>
+<li>Focus operation: FingerPoint
+</li>
+<li>Shutter operation: Gun ➜ ThumbsUp
+</li>
+<li>Focus + shutter operation: FingerPoint ➜ Fist
+</li>
+</ul>
+</li>
+<li>Direct (in development)
+</li>
+</ul>
+<h3 id="h-069b3e">Function details</h3>
+<h4 id="h-20f8c6">Shutter operation</h4>
+<p>When the shutter operation is entered as a gesture, indicator 3 lights and &quot;VR169 Companion&quot; releases the VRChat shutter.</p>
+<h4 id="h-5cd4a3">Focus operation</h4>
+<p>Camera-hand gestures let you control the VirtualLens2 focus lock intuitively. Three focus operation modes are provided, and you can choose in the VR169 ExMenu which to use, or to use none of them. This function is not available while the camera hand mode is &quot;Trigger&quot;.</p>
+<ul>
+<li>Disabled (default): the focus lock is not operated by gesture.
+</li>
+<li>Toggle: each time you make the assigned gesture, the focus lock alternates between enabled and disabled.
+</li>
+<li>AF drive: a mode for professionals, close in feel to what is called &quot;back-button AF&quot; on a DSLR. Autofocus follows the subject only while you hold the gesture assigned to the focus operation, and when you release it the focus locks at that position. As well as shooting locked, you can perform the &quot;focus operation + shutter operation&quot; gesture described above to keep autofocus tracking the subject while you release the shutter.
+</li>
+</ul>
+<nav class="pager" aria-label="Chapters">
+<a class="prev" href="../companion/index.html"><span class="lbl">Previous</span><span class="ttl">VR169 Companion</span></a><a class="next" href="../exmenu/index.html"><span class="lbl">Next</span><span class="ttl">The ExMenu and parameters</span></a></nav>
+</div>
+</main>
+<aside class="toc-right">
+<div class="inner">
+<a href="#h-29ad7f">Operation videos</a>
+<a href="#h-4c1e6a">Part names</a>
+<a href="#h-028fdf">Starting and stopping</a>
+<a class="deep" href="#h-a92667">Starting</a>
+<a class="deep" href="#h-40a619">Stopping</a>
+<a href="#h-f1447b">Checking the connection to VR169 Companion</a>
+<a href="#h-54db3d">Levers: operation and functions</a>
+<a class="deep" href="#h-562665">Deploying and stowing</a>
+<a class="deep" href="#h-a43a4a">Basic functions</a>
+<a class="deep" href="#h-26f3e1">Extra functions</a>
+<a href="#h-6963c7">The monitor: operation and functions</a>
+<a class="deep" href="#h-5d2d45">Tilt</a>
+<a class="deep" href="#h-3cd222">Revolving</a>
+<a href="#h-5c0101">Switches: operation and functions</a>
+<a class="deep" href="#h-9d3db5">Basic operation</a>
+<a class="deep" href="#h-b9a93c">Focus</a>
+<a class="deep" href="#h-75fec3">Camera placement mode</a>
+<a class="deep" href="#h-61dd1d">Other</a>
+<a href="#h-f9c87a">The camera hand: operation and functions</a>
+<a class="deep" href="#h-fe962d">Camera hand modes</a>
+<a class="deep" href="#h-069b3e">Function details</a>
+</div>
+</aside>
+</div>
+<footer>
+<div class="footer-inner">
+<p>© 2026 Sangou Studio / <a href="https://sangoustudio.booth.pm/">BOOTH</a></p>
+</div>
+</footer>
+<script>
+(function(){
+  var b=document.querySelector(".theme"); if(!b) return;
+  function now(){
+    var a=document.documentElement.getAttribute("data-theme");
+    if(a==="dark"||a==="light") return a;
+    return (window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";
+  }
+  function put(v){
+    document.documentElement.setAttribute("data-theme",v);
+    b.setAttribute("aria-pressed", v==="dark"?"true":"false");
+    try{localStorage.setItem("theme",v)}catch(e){}
+  }
+  b.setAttribute("aria-pressed", now()==="dark"?"true":"false");
+  b.addEventListener("click",function(){ put(now()==="dark"?"light":"dark") });
+})();
+</script>
+</body>
+</html>

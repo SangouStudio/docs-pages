@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<title>Installing on your avatar | Sangou Studio Docs</title>
+<meta name="description" content="Manual for VR169.">
+<link rel="icon" href="../../../favicon.png">
+<link rel="apple-touch-icon" href="../../../apple-touch-icon.png">
+<style>
+
+:root {
+    --l-bg: #ffffff;  --l-bg-soft: #f6f8fa;  --l-bg-sunk: #eef1f4;
+  --l-fg: #1f2328;  --l-fg-muted: #59636e;
+  --l-line: #d8dee4; --l-line-soft: #e6eaef;
+  --l-accent: #0a58a8; --l-accent-bg: #eaf2fb;
+
+    --d-bg: #0f1216;  --d-bg-soft: #171b21;  --d-bg-sunk: #1d222a;
+  --d-fg: #e4e9ee;  --d-fg-muted: #9aa4af;
+  --d-line: #2e353e; --d-line-soft: #242a32;
+  --d-accent: #7cb7f5; --d-accent-bg: #172231;
+
+    color-scheme: light;
+  --bg: var(--l-bg);  --bg-soft: var(--l-bg-soft);  --bg-sunk: var(--l-bg-sunk);
+  --fg: var(--l-fg);  --fg-muted: var(--l-fg-muted);
+  --line: var(--l-line); --line-soft: var(--l-line-soft);
+  --accent: var(--l-accent); --accent-bg: var(--l-accent-bg);
+
+  --radius: 10px;
+  --measure: 44rem;     --side: 17rem;        --toc: 15rem;         --bar: 3.4rem;      }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: var(--d-bg);  --bg-soft: var(--d-bg-soft);  --bg-sunk: var(--d-bg-sunk);
+    --fg: var(--d-fg);  --fg-muted: var(--d-fg-muted);
+    --line: var(--d-line); --line-soft: var(--d-line-soft);
+    --accent: var(--d-accent); --accent-bg: var(--d-accent-bg);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: var(--d-bg);  --bg-soft: var(--d-bg-soft);  --bg-sunk: var(--d-bg-sunk);
+  --fg: var(--d-fg);  --fg-muted: var(--d-fg-muted);
+  --line: var(--d-line); --line-soft: var(--d-line-soft);
+  --accent: var(--d-accent); --accent-bg: var(--d-accent-bg);
+}
+:root[data-theme="light"] { color-scheme: light; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans",
+               "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--fg);
+  background: var(--bg);
+  overflow-wrap: break-word;
+  word-break: normal;
+  line-break: strict;
+}
+
+a { color: var(--accent); }
+
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar-inner {
+  padding: 0 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  min-height: var(--bar);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--fg);
+  white-space: nowrap;
+}
+.brand img { display: block; }
+
+.bar .spacer { flex: 1 1 auto; }
+
+.langs { display: flex; gap: .4rem; white-space: nowrap; }
+.langs a {
+  font-size: .84rem;
+  text-decoration: none;
+  color: var(--fg-muted);
+  padding: .16rem .55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.langs a[aria-current="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.theme {
+  font: inherit;
+  font-size: .95rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--fg-muted);
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .35rem .55rem;
+}
+.theme:hover { color: var(--fg); border-color: var(--accent); }
+.theme::before { content: "\263C"; }                    .theme[aria-pressed="true"]::before { content: "\263D"; } 
+.menu { display: none; }
+.menu > summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: .9rem;
+  padding: .3rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  white-space: nowrap;
+}
+.menu > summary::-webkit-details-marker { display: none; }
+.menu > summary::before { content: "\2630"; margin-right: .45rem; }
+.menu[open] > summary::before { content: "\00d7"; }
+
+.menu-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  max-height: calc(100dvh - var(--bar));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  padding: .6rem 1.1rem 1.4rem;
+  box-shadow: 0 8px 24px rgb(0 0 0 / .10);
+}
+
+
+.crumb {
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--bg-soft);
+  padding: .5rem 1.1rem;
+  font-size: .84rem;
+  color: var(--fg-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  align-items: center;
+}
+.crumb a { color: var(--fg-muted); text-decoration: none; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.crumb [aria-current="page"] { color: var(--fg); }
+.crumb span[aria-hidden] { opacity: .6; }
+
+.crumb .shop {
+  margin-left: auto;
+  color: var(--accent);
+  white-space: nowrap;
+  padding: .1rem .6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.crumb .shop::after { content: " \2192"; }
+.crumb .shop:hover { border-color: var(--accent); background: var(--accent-bg); text-decoration: none; }
+
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--side) minmax(0, 1fr) var(--toc);
+  align-items: start;
+}
+.shell.solo { grid-template-columns: minmax(0, 1fr); }
+.shell.two  { grid-template-columns: minmax(0, 1fr) var(--toc); }
+
+.side {
+  position: sticky;
+  top: var(--bar);
+  height: calc(100vh - var(--bar));
+  height: calc(100dvh - var(--bar));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-right: 1px solid var(--line);
+  padding: 1.2rem .9rem 3rem;
+  background: var(--bg-soft);
+}
+
+.toc-right {
+  position: sticky;
+  top: var(--bar);
+  max-height: calc(100vh - var(--bar));
+  max-height: calc(100dvh - var(--bar));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.4rem 1rem 3rem 0;
+}
+
+main {
+  min-width: 0;
+  padding: 1.6rem 1.6rem 5rem;
+  display: flex;
+  justify-content: center;
+}
+.doc { width: 100%; max-width: var(--measure); }
+
+
+.toc, .toc ul { list-style: none; margin: 0; padding: 0; }
+
+.toc .sec {
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--fg-muted);
+  margin: 1.1rem 0 .35rem;
+  padding: 0 .55rem;
+}
+.toc .sec:first-child { margin-top: 0; }
+
+.toc a {
+  display: block;
+  text-decoration: none;
+  color: var(--fg);
+  font-size: .92rem;
+  line-height: 1.55;
+  padding: .34rem .55rem;
+  border-radius: var(--radius);
+}
+.toc a:hover { background: var(--bg-sunk); }
+.toc a[aria-current="page"] {
+  color: var(--accent);
+  background: var(--accent-bg);
+  font-weight: 700;
+}
+
+.inner { border-left: 1px solid var(--line); }
+.inner a {
+  display: block;
+  text-decoration: none;
+  font-size: .86rem;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  padding: .22rem .7rem;
+}
+.inner a:hover { color: var(--accent); }
+.inner a.deep { padding-left: 1.6rem; }
+
+.toc .inner { margin: .1rem 0 .5rem .9rem; }
+
+
+.doc h1 {
+  font-size: 1.72rem;
+  line-height: 1.45;
+  margin: 0 0 1.6rem;
+  padding-bottom: .7rem;
+  border-bottom: 1px solid var(--line);
+}
+.doc h2 {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  margin: 2.8rem 0 .9rem;
+  padding-bottom: .35rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+.doc h3 { font-size: 1.08rem; margin: 2rem 0 .7rem; }
+.doc h4 { font-size: 1rem; margin: 1.5rem 0 .5rem; color: var(--fg-muted); }
+
+.doc h2, .doc h3, .doc h4 { scroll-margin-top: calc(var(--bar) + 1rem); }
+
+.doc p { margin: 0 0 1.1rem; }
+.doc ul, .doc ol { margin: 0 0 1.1rem; padding-left: 1.6rem; }
+.doc li { margin: .25rem 0; }
+.doc li > ul, .doc li > ol { margin: .25rem 0 .35rem; }
+
+.doc figure { margin: 1.3rem 0; }
+.doc img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; }
+.doc figcaption { font-size: .85rem; color: var(--fg-muted); margin-top: .4rem; }
+
+.doc code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Courier New", monospace;
+  font-size: .92em;
+  background: var(--bg-sunk);
+  padding: .1rem .35rem;
+  border-radius: 5px;
+}
+
+.doc pre {
+  overflow-x: auto;
+  margin: 1.2rem 0;
+  padding: .8rem 1rem;
+  background: var(--bg-sunk);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  line-height: 1.75;
+}
+.doc pre code { background: none; padding: 0; border-radius: 0; }
+
+.doc blockquote {
+  margin: 1.2rem 0;
+  padding: .1rem 1rem;
+  border-left: 4px solid var(--line);
+  color: var(--fg-muted);
+}
+
+.cards { display: grid; gap: .9rem; margin: 1.6rem 0; }
+.cards a {
+  display: block;
+  text-decoration: none;
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  background: var(--bg-soft);
+}
+.cards a:hover { border-color: var(--accent); }
+.cards .ttl { display: block; font-weight: 700; color: var(--accent); }
+.cards .sub { display: block; font-size: .86rem; color: var(--fg-muted); }
+
+.table-wrap { overflow-x: auto; margin: 1.3rem 0; }
+.doc table { border-collapse: collapse; width: 100%; font-size: .93rem; }
+.doc th, .doc td {
+  border: 1px solid var(--line);
+  padding: .5rem .7rem;
+  text-align: left;
+  vertical-align: top;
+}
+.doc th { background: var(--bg-soft); font-weight: 700; white-space: nowrap; }
+
+.pager {
+  display: flex;
+  gap: .8rem;
+  margin-top: 3.5rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+.pager a {
+  flex: 1 1 0;
+  min-width: 0;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .7rem .9rem;
+}
+.pager a:hover { border-color: var(--accent); }
+.pager .lbl { display: block; font-size: .76rem; color: var(--fg-muted); }
+.pager .ttl { display: block; color: var(--accent); font-weight: 700; }
+.pager .next { text-align: right; margin-left: auto; }
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 1.6rem 1.1rem 2.4rem;
+  font-size: .85rem;
+  color: var(--fg-muted);
+}
+footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
+
+
+@media (max-width: 78rem) {
+  .shell { grid-template-columns: var(--side) minmax(0, 1fr); }
+  .shell.two { grid-template-columns: minmax(0, 1fr); }
+  .toc-right { display: none; }
+}
+
+
+@media (max-width: 64rem) {
+  .shell, .shell.solo, .shell.two { grid-template-columns: minmax(0, 1fr); }
+  .side { display: none; }
+  .menu { display: block; }
+  main { padding: 1.3rem 1.1rem 4rem; }
+  .brand-text { display: none; }
+}
+
+@media (max-width: 34rem) {
+  body { font-size: 15.5px; }
+  .doc h1 { font-size: 1.45rem; }
+  .doc h2 { font-size: 1.18rem; }
+  .pager { flex-direction: column; }
+  .pager .next { text-align: left; margin-left: 0; }
+}
+
+@media print {
+  .bar, .side, .toc-right, .menu, .crumb, .pager, footer { display: none; }
+  .shell { display: block; }
+  main { padding: 0; display: block; }
+  .doc { max-width: none; }
+}
+</style>
+</head>
+<body>
+<header class="bar">
+<div class="bar-inner">
+<a class="brand" href="../../../"><img src="../../../assets/mark.png" alt="" width="24" height="24"><span class="brand-text">Sangou Studio Docs</span></a>
+<details class="menu">
+<summary>Contents</summary>
+<div class="menu-panel">
+<nav class="toc">
+<p class="sec">VR169</p>
+<a href="../index.html">VR169 VL2 — Manual</a>
+<a href="../terms/index.html">Terms of Use and Important Notes</a>
+<a href="../install/index.html" aria-current="page">Installing on your avatar</a>
+<a href="../vrchat/index.html">VRChat settings</a>
+<a href="../companion/index.html">VR169 Companion</a>
+<a href="../controls/index.html">Operating VR169</a>
+<a href="../exmenu/index.html">The ExMenu and parameters</a>
+<a href="../changelog/index.html">Update history</a>
+</nav>
+<div class="inner">
+<a href="#h-2ea00a">Installation video</a>
+<a href="#h-be73ba">Getting ready</a>
+<a class="deep" href="#h-82fe68">Prepare the project</a>
+<a class="deep" href="#h-65055a">Prepare the avatar</a>
+<a class="deep" href="#h-31da6a">Prepare VR169</a>
+<a href="#h-86fe49">Installing MotionTrigger</a>
+<a class="deep" href="#h-9fe36d">Place the prefab</a>
+<a class="deep" href="#h-ee08f9">Prepare for adjustment</a>
+<a class="deep" href="#h-e8bd83">Set the arm length</a>
+<a class="deep" href="#h-566c42">Set the wrist angle</a>
+<a class="deep" href="#h-50925e">Set the viewpoint position</a>
+<a class="deep" href="#h-7fd86b">Disable the setup objects</a>
+<a href="#h-6122f8">Installing VR169 and VirtualLens2</a>
+<a class="deep" href="#h-fa9304">Place VR169 and VirtualLens2 on the avatar</a>
+<a class="deep" href="#h-df38fe">Specify the camera object [important]</a>
+<a class="deep" href="#h-c8c36e">Adjust the camera position and scale</a>
+<a class="deep" href="#h-ba6765">Set the reference direction</a>
+<a class="deep" href="#h-e8bd83-2">Set the arm length</a>
+<a class="deep" href="#h-1afc9e">Set the fingertip position</a>
+<a class="deep" href="#h-50925e-2">Set the viewpoint position</a>
+<a class="deep" href="#h-1fd853">Disable the VR169 setup objects</a>
+<a class="deep" href="#h-655f2b">Set the VR169 material</a>
+<a class="deep" href="#h-71663e">Disable the VR169 3D model</a>
+<a class="deep" href="#h-32c027">Complete the remaining VirtualLens2 settings</a>
+<a href="#h-95c757">Test the avatar</a>
+</div>
+</div>
+</details>
+<span class="spacer"></span>
+<div class="langs"><a href="../../">日本語</a><a href="../../en/" aria-current="true">English</a></div><button class="theme" type="button" aria-pressed="false" aria-label="Switch colour theme" title="Switch colour theme"></button>
+</div>
+</header>
+<nav class="crumb" aria-label="breadcrumb">
+<a href="../../../">Sangou Studio Docs</a><span aria-hidden="true">&rsaquo;</span><a href="../../">VR169</a><span aria-hidden="true">&rsaquo;</span><span aria-current="page">Installing on your avatar</span>
+<a class="shop" href="https://sangoustudio.booth.pm/items/7546821">Product page (BOOTH)</a>
+</nav>
+<div class="shell">
+<div class="side">
+<nav class="toc">
+<p class="sec">VR169</p>
+<a href="../index.html">VR169 VL2 — Manual</a>
+<a href="../terms/index.html">Terms of Use and Important Notes</a>
+<a href="../install/index.html" aria-current="page">Installing on your avatar</a>
+<a href="../vrchat/index.html">VRChat settings</a>
+<a href="../companion/index.html">VR169 Companion</a>
+<a href="../controls/index.html">Operating VR169</a>
+<a href="../exmenu/index.html">The ExMenu and parameters</a>
+<a href="../changelog/index.html">Update history</a>
+</nav>
+</div>
+<main>
+<div class="doc">
+<h1 id="h-ca3bcf">Installing on your avatar</h1>
+<p>There is no change from ver. 1.1.x.</p>
+<h2 id="h-2ea00a">Installation video</h2>
+<ul>
+<li>VR169 installation 1.1.0 <a href="https://youtu.be/pRUT7W4DFlc?si=Y-Epg9O5DM5PIj7M">https://youtu.be/pRUT7W4DFlc?si=Y-Epg9O5DM5PIj7M</a>
+</li>
+</ul>
+<h2 id="h-be73ba">Getting ready</h2>
+<h3 id="h-82fe68">Prepare the project</h3>
+<p>Prepare a Unity project with the required assets imported.</p>
+<h3 id="h-65055a">Prepare the avatar</h3>
+<p>Place the avatar you want to install VR169 on in the Scene.</p>
+<h3 id="h-31da6a">Prepare VR169</h3>
+<p>Import the VR169 unitypackage into the project.</p>
+<h2 id="h-86fe49">Installing MotionTrigger</h2>
+<p>If Sangou Studio's MotionTrigger is already installed on the avatar, go on to &quot;Installing VR169 and VirtualLens2&quot;. MotionTrigger ships with this product as a separate unitypackage from VR169 itself. An update that simplifies this installation is planned.</p>
+<h3 id="h-9fe36d">Place the prefab</h3>
+<ul>
+<li>Place MotionTrigger.prefab inside the avatar. Location: Assets/SangouStudio/Common/Gimmick/MotionTrigger/MotionTrigger.prefab
+</li>
+<li>Drag and drop it directly under the avatar root.
+</li>
+</ul>
+<h3 id="h-ee08f9">Prepare for adjustment</h3>
+<p>Temporarily hide clothing and hair, or adjust the body's blend shapes, so that you can see the avatar's body clearly.</p>
+<h3 id="h-e8bd83">Set the arm length</h3>
+<ul>
+<li>The mechanism is sized against the length of the arm.
+</li>
+<li>Adjust the scale of MotionTrigger/Anchor/CTRL_ArmScale.
+</li>
+<li>Work in Front view (orthographic). Change the scale uniformly on X, Y and Z, and bring the green translucent object roughly over the centre of the white cross at the left wrist.
+</li>
+</ul>
+<figure><img src="../../images/image5.jpg" alt="image5.jpg" loading="lazy"></figure>
+<p>✓: correct　×: incorrect</p>
+<h3 id="h-566c42">Set the wrist angle</h3>
+<ul>
+<li>Wrist angles differ from avatar to avatar; fit the mechanism to yours. Adjust the rotation of MotionTrigger/Anchor/Hand_R/CTRL_Hand_R.
+</li>
+<li>VR169 currently needs no setting on the left-hand side.
+</li>
+<li>Rotate it so that the black cube sits at the fingertips.
+</li>
+<li>Rotate it so that the white cylinder extends roughly in the direction the palm faces. On most avatars, in both T-pose and A-pose, it will point more or less straight down when viewed from the side.
+</li>
+</ul>
+<figure><img src="../../images/image2.jpg" alt="image2.jpg" loading="lazy"></figure>
+<figure><img src="../../images/image4.jpg" alt="image4.jpg" loading="lazy"></figure>
+<p>✓: correct　×: incorrect</p>
+<h3 id="h-50925e">Set the viewpoint position</h3>
+<ul>
+<li>Roughly specify the viewpoint position, for the mechanisms that use gaze. Adjust the position and rotation of MotionTrigger/Anchor/Head/CTRL_ViewPoint.
+</li>
+<li>Place the white sphere at approximately the same position as the avatar's viewpoint.
+</li>
+<li>Adjust the rotation so that the black sphere is above the white sphere and the transparent cylinder extends in front of the avatar. This is often unnecessary.
+</li>
+<li>Viewed from the side, adjust the rotation so that the transparent cylinder is roughly horizontal.
+</li>
+</ul>
+<figure><img src="../../images/image6.jpg" alt="image6.jpg" loading="lazy"></figure>
+<p>✓: correct　×: incorrect</p>
+<h3 id="h-7fd86b">Disable the setup objects</h3>
+<p>Uncheck MotionTrigger/Guide to disable it.</p>
+<h2 id="h-6122f8">Installing VR169 and VirtualLens2</h2>
+<p>Some adjustments are almost the same as for MotionTrigger. As with MotionTrigger, an update to simplify this is planned.</p>
+<h3 id="h-fa9304">Place VR169 and VirtualLens2 on the avatar</h3>
+<ul>
+<li>Right-click the avatar's root object.
+</li>
+<li>Choose VirtualLens2 / Non-Destructive Setup.
+</li>
+<li>Set the &quot;VirtualLens2 Setup (Non-Destructive)&quot; dialog as below and click Apply.
+</li>
+</ul>
+<div class="table-wrap"><table>
+<thead><tr><th>Item</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>Target Hand</td><td>Right</td></tr>
+<tr><td>Use Custom Model</td><td>enabled</td></tr>
+<tr><td>Custom Model Prefab</td><td>Assets/SangouStudio/CameraController/VR169/Prefab/VR169_VL2.prefab</td></tr>
+</tbody></table></div>
+<h3 id="h-df38fe">Specify the camera object [important]</h3>
+<p>On the VirtualLens Settings component of the generated VirtualLens2 object, set Camera Object / Root Object to VirtualLens2/VR169_VL2/Root in the Hierarchy.</p>
+<figure><img src="../../images/image7.jpg" alt="image7.jpg" loading="lazy"></figure>
+<h3 id="h-c8c36e">Adjust the camera position and scale</h3>
+<p>Select VirtualLens2/VR169_VL2 and move it so that the avatar appears to hold the camera in its hand. Adjust the scale as well. It appears a little away from the avatar. If the camera's angle is off relative to the hand or arm, the white cross on the camera-hand side can be a useful reference.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Avatar height</th><th>Suggested scale</th></tr></thead>
+<tbody>
+<tr><td>about 170 cm</td><td>about 1.3×</td></tr>
+<tr><td>about 140 cm</td><td>about 1.0–1.1×</td></tr>
+<tr><td>about 80 cm</td><td>below about 0.7×</td></tr>
+</tbody></table></div>
+<p>A guide to scale adjustment</p>
+<p>When the Scale of VirtualLens2 is 1</p>
+<p>\* These are only a guide, but a large deviation will interfere with operation.</p>
+<p>Tip: giving the camera a slight forward tilt reduces the strain on your wrist when you hold it up inside VRChat.</p>
+<h3 id="h-ba6765">Set the reference direction</h3>
+<p>Adjust the rotation of VirtualLens2/VR169_VL2/Anchor/Hips/CTRL_Origin. Using the image below, check that the transparent cylinder and the gizmo shown near the hips are in the correct state. If they are not, rotate it until they are. Note: most avatars do not need this adjustment, but please check to be sure.</p>
+<figure><img src="../../images/image9.jpg" alt="image9.jpg" loading="lazy"></figure>
+<p>✓: correct　×: incorrect</p>
+<h3 id="h-e8bd83-2">Set the arm length</h3>
+<p>Adjust the scale of VirtualLens2/VR169_VL2/Anchor/CTRL_ArmScale. Change the scale uniformly on X, Y and Z, and bring the green translucent object roughly over the centre of the white cross at the left wrist. This is the same operation as for MotionTrigger.</p>
+<h3 id="h-1afc9e">Set the fingertip position</h3>
+<p>Adjust the position and rotation of VirtualLens2/VR169_VL2/Anchor/IndexDista_L/CTRL_senderFinger.</p>
+<ul>
+<li>Rotate it so that the orange cube points at the tip of the index finger.
+</li>
+<li>Move the white sphere to a position where it just barely touches the index finger.
+</li>
+<li>The blue translucent capsule is the switch's detection area. Fine-tune its position and rotation to taste, to suit nail length and so on.
+</li>
+</ul>
+<figure><img src="../../images/image1.jpg" alt="image1.jpg" loading="lazy"></figure>
+<p>✓: correct　×: incorrect</p>
+<h3 id="h-50925e-2">Set the viewpoint position</h3>
+<p>Adjust the position and rotation of VirtualLens2/VR169_VL2/Anchor/Head/CTRL_ViewPoint.</p>
+<ul>
+<li>Place the white sphere at approximately the same position as the avatar's viewpoint.
+</li>
+<li>Adjust the rotation so that the black sphere is above the white sphere and the transparent cylinder extends in front of the avatar. This is often unnecessary.
+</li>
+<li>Viewed from the side, adjust the rotation so that the transparent cylinder is roughly horizontal.
+</li>
+<li>This is the same operation as for MotionTrigger.
+</li>
+</ul>
+<h3 id="h-1fd853">Disable the VR169 setup objects</h3>
+<p>Uncheck VirtualLens2/VR169_VL2/Guide to disable it.</p>
+<h3 id="h-655f2b">Set the VR169 material</h3>
+<p>You can change VR169's material by changing the material on VirtualLens2/VR169_VL2/Model/VR169/F_Camera. The materials are in Assets/SangouStudio/CameraController/VR169/Material.</p>
+<ul>
+<li>Basic_L: a material using lilToon.
+</li>
+<li>Basic_P: a Poiyomi Toon Shader material, but set up on the assumption that it is used together with lilToon. Now that lilToon is supported, a future update will tidy this up.
+</li>
+<li>Custom: a material using Poiyomi Toon Shader. It is set up to prioritise blending into worlds whose light and reflections are well tuned, and it is strongly affected by the world. If you use the Poiyomi Toon Shader edition of this shop's &quot;Smooth Matte Material Set&quot;, this is the one to choose.
+</li>
+</ul>
+<h3 id="h-71663e">Disable the VR169 3D model</h3>
+<p>Uncheck VirtualLens2/VR169_VL2/Model to disable it.</p>
+<h3 id="h-32c027">Complete the remaining VirtualLens2 settings</h3>
+<p>Configure the &quot;VirtualLens Settings&quot; component on the generated &quot;VirtualLens2&quot; object to taste.</p>
+<p>For Focal Length, we suggest a Min of 12 mm or more and a Max of 300 mm or less.</p>
+<p>For Peaking we suggest None, because there is a function that enables it automatically when you grip the aperture lever (see &quot;Levers — operation and functions&quot; on the Operating VR169 page). The top two QuickCall slots can each be called up by a lever operation (see the same section).</p>
+<p>Remote Only Mode is outside the tested configuration.</p>
+<h2 id="h-95c757">Test the avatar</h2>
+<p>Test-build the avatar and check that it works before you upload it.</p>
+<nav class="pager" aria-label="Chapters">
+<a class="prev" href="../terms/index.html"><span class="lbl">Previous</span><span class="ttl">Terms of Use and Important Notes</span></a><a class="next" href="../vrchat/index.html"><span class="lbl">Next</span><span class="ttl">VRChat settings</span></a></nav>
+</div>
+</main>
+<aside class="toc-right">
+<div class="inner">
+<a href="#h-2ea00a">Installation video</a>
+<a href="#h-be73ba">Getting ready</a>
+<a class="deep" href="#h-82fe68">Prepare the project</a>
+<a class="deep" href="#h-65055a">Prepare the avatar</a>
+<a class="deep" href="#h-31da6a">Prepare VR169</a>
+<a href="#h-86fe49">Installing MotionTrigger</a>
+<a class="deep" href="#h-9fe36d">Place the prefab</a>
+<a class="deep" href="#h-ee08f9">Prepare for adjustment</a>
+<a class="deep" href="#h-e8bd83">Set the arm length</a>
+<a class="deep" href="#h-566c42">Set the wrist angle</a>
+<a class="deep" href="#h-50925e">Set the viewpoint position</a>
+<a class="deep" href="#h-7fd86b">Disable the setup objects</a>
+<a href="#h-6122f8">Installing VR169 and VirtualLens2</a>
+<a class="deep" href="#h-fa9304">Place VR169 and VirtualLens2 on the avatar</a>
+<a class="deep" href="#h-df38fe">Specify the camera object [important]</a>
+<a class="deep" href="#h-c8c36e">Adjust the camera position and scale</a>
+<a class="deep" href="#h-ba6765">Set the reference direction</a>
+<a class="deep" href="#h-e8bd83-2">Set the arm length</a>
+<a class="deep" href="#h-1afc9e">Set the fingertip position</a>
+<a class="deep" href="#h-50925e-2">Set the viewpoint position</a>
+<a class="deep" href="#h-1fd853">Disable the VR169 setup objects</a>
+<a class="deep" href="#h-655f2b">Set the VR169 material</a>
+<a class="deep" href="#h-71663e">Disable the VR169 3D model</a>
+<a class="deep" href="#h-32c027">Complete the remaining VirtualLens2 settings</a>
+<a href="#h-95c757">Test the avatar</a>
+</div>
+</aside>
+</div>
+<footer>
+<div class="footer-inner">
+<p>© 2026 Sangou Studio / <a href="https://sangoustudio.booth.pm/">BOOTH</a></p>
+</div>
+</footer>
+<script>
+(function(){
+  var b=document.querySelector(".theme"); if(!b) return;
+  function now(){
+    var a=document.documentElement.getAttribute("data-theme");
+    if(a==="dark"||a==="light") return a;
+    return (window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";
+  }
+  function put(v){
+    document.documentElement.setAttribute("data-theme",v);
+    b.setAttribute("aria-pressed", v==="dark"?"true":"false");
+    try{localStorage.setItem("theme",v)}catch(e){}
+  }
+  b.setAttribute("aria-pressed", now()==="dark"?"true":"false");
+  b.addEventListener("click",function(){ put(now()==="dark"?"light":"dark") });
+})();
+</script>
+</body>
+</html>
