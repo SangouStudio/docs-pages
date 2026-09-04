@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<title>三号スタジオ 説明書</title>
-<meta name="description" content="三号スタジオの商品の説明書です。">
-<link rel="icon" href="./favicon.png">
-<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<title>Avatar Semi-Support Package | Sangou Studio Docs</title>
+<meta name="description" content="Manual for AOShieldContact.">
+<link rel="icon" href="../../../favicon.png">
+<link rel="apple-touch-icon" href="../../../apple-touch-icon.png">
 <style>
 
 :root {
@@ -405,23 +405,84 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <body>
 <header class="bar">
 <div class="bar-inner">
-<a class="brand" href="./"><img src="./assets/mark.png" alt="" width="24" height="24"><span class="brand-text">Sangou Studio Docs</span></a>
+<a class="brand" href="../../../"><img src="../../../assets/mark.png" alt="" width="24" height="24"><span class="brand-text">Sangou Studio Docs</span></a>
+<details class="menu">
+<summary>Contents</summary>
+<div class="menu-panel">
+<nav class="toc">
+<p class="sec">AOShieldContact</p>
+<a href="../index.html">AO Shield Contact — Manual</a>
+<a href="../terms/index.html">Terms of Use and Important Notes</a>
+<a href="../install/index.html">Installing</a>
+<a href="../avatarpack/index.html" aria-current="page">Avatar Semi-Support Package</a>
+<a href="../update/index.html">Updating</a>
+<a href="../changelog/index.html">Update history</a>
+</nav>
+<div class="inner">
+<a href="#h-532ba0">Installing</a>
+<a href="#h-d5138c">When you want to adjust it</a>
+<a href="#h-2621c1">Notes on behaviour</a>
+</div>
+</div>
+</details>
 <span class="spacer"></span>
-<div class="langs"><a href="./" aria-current="true">日本語</a><a href="en/">English</a></div><button class="theme" type="button" aria-pressed="false" aria-label="配色を切り替える" title="配色を切り替える"></button>
+<div class="langs"><a href="../../">日本語</a><a href="../../en/" aria-current="true">English</a></div><button class="theme" type="button" aria-pressed="false" aria-label="Switch colour theme" title="Switch colour theme"></button>
 </div>
 </header>
-<div class="shell solo">
+<nav class="crumb" aria-label="breadcrumb">
+<a href="../../../">Sangou Studio Docs</a><span aria-hidden="true">&rsaquo;</span><a href="../../">AOShieldContact</a><span aria-hidden="true">&rsaquo;</span><span aria-current="page">Avatar Semi-Support Package</span>
+<a class="shop" href="https://sangoustudio.booth.pm/items/6907319">Product page (BOOTH)</a>
+</nav>
+<div class="shell">
+<div class="side">
+<nav class="toc">
+<p class="sec">AOShieldContact</p>
+<a href="../index.html">AO Shield Contact — Manual</a>
+<a href="../terms/index.html">Terms of Use and Important Notes</a>
+<a href="../install/index.html">Installing</a>
+<a href="../avatarpack/index.html" aria-current="page">Avatar Semi-Support Package</a>
+<a href="../update/index.html">Updating</a>
+<a href="../changelog/index.html">Update history</a>
+</nav>
+</div>
 <main>
 <div class="doc">
-<h1>三号スタジオ 説明書</h1>
-<p>三号スタジオの商品の、説明書です。</p>
-<div class="cards">
-<a href="./AOShieldContact/"><span class="ttl">AO Shield Contact 説明書</span><span class="sub">AOShieldContact ／ 全 6 章</span></a>
-<a href="./NeckAdapter/"><span class="ttl">NovaVultus専用ネックアダプター 説明書</span><span class="sub">NeckAdapter ／ 1ページ</span></a>
-<a href="./VR169/"><span class="ttl">VR169 VL2 説明書</span><span class="sub">VR169 ／ 全 9 章</span></a>
-</div>
+<h1 id="h-c79c10">Avatar Semi-Support Package</h1>
+<p>A separately sold option. It is a set of AO Shield Contact Prefabs, adjusted in advance for each avatar. On an unmodified avatar, placing it is all you need to do. If you have modified the face, it still works as a starting point for your own adjustment.</p>
+<p>You need AO Shield Contact itself. The package cannot be used on its own.</p>
+<h2 id="h-532ba0">Installing</h2>
+<ol>
+<li value="1">Back up your project.
+</li>
+<li value="2">Import AO Shield Contact and the assets it needs into your project.
+</li>
+<li value="3">Import the Avatar Semi-Support Package, <code>ASC_AvatarPack_&lt;version&gt;</code>.
+</li>
+<li value="4">Put your avatar in the Hierarchy.
+</li>
+<li value="5">Place the Prefab from the folder named after your avatar, at the path below, into the avatar.
+</li>
+</ol>
+<pre><code>Assets/SangouStudio/Utilities/AOShieldContact/[AvatarPack]</code></pre>
+<h2 id="h-d5138c">When you want to adjust it</h2>
+<p>Change the material on the contact object <code>Contact</code> to <code>m_SetUpMaterial</code> or <code>m_SetUpMaterial_lilToon</code>, found at the path below. Then adjust it following the installation video for the main product.</p>
+<pre><code>Assets/SangouStudio/Utilities/AOShieldContact/Material</code></pre>
+<h2 id="h-2621c1">Notes on behaviour</h2>
+<p>On some avatars, a slight mesh intersection can appear while blinking.</p>
+<p>A Prefab is included only where we judged this to be acceptable in practice. Where there is a small amount of protrusion, a note is included in a text file inside each folder. Please read it before use.</p>
+<p>Only the blink blendshape has been checked for interference. Other blendshapes have not been checked.</p>
+<p>Parts such as highlights may stick out of the contact, but this causes no practical problem.</p>
+<nav class="pager" aria-label="Chapters">
+<a class="prev" href="../install/index.html"><span class="lbl">Previous</span><span class="ttl">Installing</span></a><a class="next" href="../update/index.html"><span class="lbl">Next</span><span class="ttl">Updating</span></a></nav>
 </div>
 </main>
+<aside class="toc-right">
+<div class="inner">
+<a href="#h-532ba0">Installing</a>
+<a href="#h-d5138c">When you want to adjust it</a>
+<a href="#h-2621c1">Notes on behaviour</a>
+</div>
+</aside>
 </div>
 <footer>
 <div class="footer-inner">
