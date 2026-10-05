@@ -369,6 +369,7 @@ footer {
   color: var(--fg-muted);
 }
 footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
+footer .footer-inner .tm { font-size: 0.78rem; color: var(--fg-muted); margin-top: 0.4rem; }
 
 
 @media (max-width: 78rem) {
@@ -420,6 +421,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <a href="../controls/index.html">VR169の操作</a>
 <a href="../exmenu/index.html" aria-current="page">ExMenuとパラメーター</a>
 <a href="../changelog/index.html">更新履歴</a>
+<a href="../oldversions/index.html">旧バージョンの説明書</a>
 </nav>
 <div class="inner">
 <a href="#h-bd5663">メニューマップ</a>
@@ -434,6 +436,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <a class="deep" href="#h-184548">フォーカス</a>
 <a class="deep" href="#h-ee51a9">レバー</a>
 <a class="deep" href="#h-ae19c6">ハンドサイン</a>
+<a class="deep" href="#h-471ca0">グリッド</a>
 <a class="deep" href="#h-d173df-2">カメラ配置モード</a>
 <a class="deep" href="#h-332ffd-2">VR169 Companion</a>
 <a href="#h-9dc6d8">その他パラメーター</a>
@@ -461,6 +464,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <a href="../controls/index.html">VR169の操作</a>
 <a href="../exmenu/index.html" aria-current="page">ExMenuとパラメーター</a>
 <a href="../changelog/index.html">更新履歴</a>
+<a href="../oldversions/index.html">旧バージョンの説明書</a>
 </nav>
 </div>
 <main>
@@ -579,6 +583,14 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 </ul>
 </li>
 <li>クイックコール
+</li>
+</ul>
+</li>
+<li>グリッド
+<ul>
+<li>カスタム（要設定）
+</li>
+<li>通常
 </li>
 </ul>
 </li>
@@ -735,21 +747,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <p>VR169 Companionにシャッターを切らせる。</p>
 <p>＊シャッターだけをExMenuで操作したい場合の為に同名のサブメニューに格納されています。</p>
 <ul>
-<li>VR169_Shutter
-</li>
-<li>Bool
-<ul>
-<li>0 待機
-</li>
-<li>1 実行
-</li>
-</ul>
-</li>
-</ul>
-<p>OSC Check</p>
-<p>VR169 Companionとの通信をモニタリングする。数秒おきにオンになっていればアプリと接続できています。アプリ側で接続が切れた場合、これを実行することで接続が回復する場合があります。</p>
-<ul>
-<li>VR169_Heartbeat
+<li>VR169Com_Shutter
 </li>
 <li>Bool
 <ul>
@@ -1041,6 +1039,20 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 </ul>
 </li>
 </ul>
+<h3 id="h-471ca0">グリッド</h3>
+<p>操作の『グリッド』で切り替える対象を設定する。『カスタム』は付属のカスタムグリッド、『通常』はVirtualLens2の標準グリッドを切り替える。</p>
+<ul>
+<li>VR169_Setting_GridMode
+</li>
+<li>Int
+<ul>
+<li>0 通常
+</li>
+<li>1 カスタム
+</li>
+</ul>
+</li>
+</ul>
 <h3 id="h-d173df-2">カメラ配置モード</h3>
 <p>再配置倍率モード設定</p>
 <p>カメラ配置モード『再配置』における、Low / Highの倍率の組み合わせ（モード）を設定する。</p>
@@ -1064,7 +1076,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <p>連携起動</p>
 <p>VR169 Companionによるカメラ連携自動起動の有効と無効を切り替えます。</p>
 <ul>
-<li>VR169_CamLink
+<li>VR169Com_Link
 </li>
 <li>Bool
 <ul>
@@ -1165,6 +1177,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <a class="deep" href="#h-184548">フォーカス</a>
 <a class="deep" href="#h-ee51a9">レバー</a>
 <a class="deep" href="#h-ae19c6">ハンドサイン</a>
+<a class="deep" href="#h-471ca0">グリッド</a>
 <a class="deep" href="#h-d173df-2">カメラ配置モード</a>
 <a class="deep" href="#h-332ffd-2">VR169 Companion</a>
 <a href="#h-9dc6d8">その他パラメーター</a>
@@ -1174,6 +1187,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <footer>
 <div class="footer-inner">
 <p>© 2026 Sangou Studio / <a href="https://sangoustudio.booth.pm/">BOOTH</a></p>
+<p class="tm">本サイトは、Unity Technologies またはその関連会社が後援し、または提携するものではありません。Unity は、米国およびその他の国における Unity Technologies またはその関連会社の商標または登録商標です。</p>
 </div>
 </footer>
 <script>

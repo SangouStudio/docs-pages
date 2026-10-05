@@ -369,6 +369,7 @@ footer {
   color: var(--fg-muted);
 }
 footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
+footer .footer-inner .tm { font-size: 0.78rem; color: var(--fg-muted); margin-top: 0.4rem; }
 
 
 @media (max-width: 78rem) {
@@ -420,6 +421,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <a href="../controls/index.html">VR169の操作</a>
 <a href="../exmenu/index.html">ExMenuとパラメーター</a>
 <a href="../changelog/index.html">更新履歴</a>
+<a href="../oldversions/index.html">旧バージョンの説明書</a>
 </nav>
 <div class="inner">
 <a href="#h-68a8ba">概要</a>
@@ -455,6 +457,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <a href="../controls/index.html">VR169の操作</a>
 <a href="../exmenu/index.html">ExMenuとパラメーター</a>
 <a href="../changelog/index.html">更新履歴</a>
+<a href="../oldversions/index.html">旧バージョンの説明書</a>
 </nav>
 </div>
 <main>
@@ -486,12 +489,12 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 </ul>
 <h2 id="h-b4aa66">導入方法</h2>
 <h3 id="h-f91c78">配置手順</h3>
-<p>アセットパッケージに同梱されている VR169_Companion_x.x.x フォルダを、フォルダごと任意のローカルフォルダへ配置してください。フォルダ内にある VR169_Companion.exe がアプリケーション本体となります。※管理者権限による保護が有効なフォルダ（例：C:\Program Files）に配置した場合、設定ファイルの書き込みに失敗することがあります。ユーザーフォルダなどの権限が開放されたディレクトリへの配置を推奨します。</p>
+<p>アセットパッケージに同梱されている VR169_Companion_x.x.x フォルダを、フォルダごと任意のローカルフォルダへ配置してください。フォルダ内にある VR169 Companion.exe がアプリケーション本体となります。※管理者権限による保護が有効なフォルダ（例：C:\Program Files）に配置した場合、設定ファイルの書き込みに失敗することがあります。ユーザーフォルダなどの権限が開放されたディレクトリへの配置を推奨します。</p>
 <h3 id="h-94ffab">セキュリティプロテクトの解除</h3>
 <p>インターネットからダウンロードした実行可能プログラムは、Windowsの保護機能やセキュリティ対策ソフトウェアによって起動を制限されたり、隔離・消去されたりする場合があります。必要に応じて以下の解除手順を実施してください。</p>
 <p>プロパティにおけるブロック解除</p>
 <ul>
-<li>アプリケーションファイル（VR169_Companion.exe）を右クリックし、『プロパティ』を選択します。
+<li>アプリケーションファイル（VR169 Companion.exe）を右クリックし、『プロパティ』を選択します。
 </li>
 <li>『全般』タブの最下部にあるセキュリティ項目を確認します。
 </li>
@@ -547,7 +550,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <p>基本的に起動するだけで準備は完了し、特別な操作を必要としません。</p>
 <h4 id="h-a4f3b4">開始処理</h4>
 <ul>
-<li>VR169_Companion.exe を起動します。
+<li>VR169 Companion.exe を起動します。
 </li>
 <li>VRChatを起動し、VR169アセットがセットアップされているアバターをロードします。
 </li>
@@ -574,7 +577,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <ul>
 <li>Ctrl + Shift + Esc キーを押下して、Windowsの『タスクマネージャー』を開きます。
 </li>
-<li>プロセス一覧から VR169_Companion.exe を探索して選択します。
+<li>プロセス一覧から VR169 Companion.exe を探索して選択します。
 </li>
 <li>『タスクの終了』を実行してプロセスを強制クローズさせた後、改めてアプリケーションを起動します。
 </li>
@@ -608,6 +611,7 @@ footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 <footer>
 <div class="footer-inner">
 <p>© 2026 Sangou Studio / <a href="https://sangoustudio.booth.pm/">BOOTH</a></p>
+<p class="tm">本サイトは、Unity Technologies またはその関連会社が後援し、または提携するものではありません。Unity は、米国およびその他の国における Unity Technologies またはその関連会社の商標または登録商標です。</p>
 </div>
 </footer>
 <script>
