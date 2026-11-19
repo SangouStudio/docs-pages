@@ -371,6 +371,33 @@ footer {
 footer .footer-inner { max-width: 68rem; margin: 0 auto; text-align: center; }
 footer .footer-inner .tm { font-size: 0.78rem; color: var(--fg-muted); margin-top: 0.4rem; }
 
+.consent {
+  position: fixed; z-index: 50;
+  left: 50%; transform: translateX(-50%);
+  bottom: max(.9rem, env(safe-area-inset-bottom));
+  width: min(42rem, calc(100% - 1.8rem));
+  display: flex; align-items: center; gap: 1rem;
+  padding: .8rem .9rem .8rem 1.1rem;
+  background: var(--bg-soft); color: var(--fg);
+  border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .18);
+  font-size: .86rem; line-height: 1.6;
+}
+.consent[hidden] { display: none; }
+.consent p { margin: 0; flex: 1; }
+.consent .nw { white-space: nowrap; }
+.consent a { color: var(--accent); white-space: nowrap; margin-left: .3em; }
+.consent-btns { display: flex; gap: .5rem; flex-shrink: 0; }
+.consent-btns button {
+  font: inherit; font-weight: 700;
+  min-height: 2.75rem; min-width: 6.5rem; padding: .4rem 1rem;
+  border: 1px solid var(--accent); border-radius: 8px;
+  background: var(--bg); color: var(--accent); cursor: pointer;
+}
+.consent-btns button:hover { background: var(--accent-bg); }
+.consent-btns button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+body.has-consent footer { padding-bottom: 8rem; }
+
 
 @media (max-width: 78rem) {
   .shell { grid-template-columns: var(--side) minmax(0, 1fr); }
@@ -393,10 +420,18 @@ footer .footer-inner .tm { font-size: 0.78rem; color: var(--fg-muted); margin-to
   .doc h2 { font-size: 1.18rem; }
   .pager { flex-direction: column; }
   .pager .next { text-align: left; margin-left: 0; }
+  .consent {
+    flex-direction: column; align-items: stretch; gap: .65rem;
+    left: 0; transform: none; bottom: 0; width: 100%;
+    border-width: 1px 0 0; border-radius: var(--radius) var(--radius) 0 0;
+    padding: .85rem 1rem calc(.85rem + env(safe-area-inset-bottom));
+  }
+  .consent-btns button { flex: 1; min-width: 0; }
+  body.has-consent footer { padding-bottom: 11rem; }
 }
 
 @media print {
-  .bar, .side, .toc-right, .menu, .crumb, .pager, footer { display: none; }
+  .bar, .side, .toc-right, .menu, .crumb, .pager, footer, .consent { display: none; }
   .shell { display: block; }
   main { padding: 0; display: block; }
   .doc { max-width: none; }
@@ -608,7 +643,7 @@ footer .footer-inner .tm { font-size: 0.78rem; color: var(--fg-muted); margin-to
 </div>
 <footer>
 <div class="footer-inner">
-<p>Copyright (c) 2026 Sangou Studio / <a href="https://sangoustudio.booth.pm/">BOOTH</a> / <a href="../../contact/">問い合わせ</a></p>
+<p>Copyright (c) 2026 Sangou Studio / <a href="https://sangoustudio.booth.pm/">BOOTH</a> / <a href="../../contact/">問い合わせ</a> / <a class="consent-open" href="https://legal.sangoustudio.com/analytics/">アクセス解析の設定</a></p>
 <p class="tm">本サイトは、Unity Technologies またはその関連会社が後援し、または提携するものではありません。Unity は、米国およびその他の国における Unity Technologies またはその関連会社の商標または登録商標です。</p>
 </div>
 </footer>
@@ -627,6 +662,60 @@ footer .footer-inner .tm { font-size: 0.78rem; color: var(--fg-muted); margin-to
   }
   b.setAttribute("aria-pressed", now()==="dark"?"true":"false");
   b.addEventListener("click",function(){ put(now()==="dark"?"light":"dark") });
+})();
+</script>
+<div class="consent" id="consent" role="region" aria-label="アクセス解析" hidden>
+<p>説明書の改善に Google アナリティクスを利用しています。<span class="nw">『許可する』</span>を選んだ場合に限り、閲覧データを Google に送信します。<a href="https://legal.sangoustudio.com/analytics/">アクセス解析の詳細</a></p>
+<div class="consent-btns"><button type="button" data-consent="denied">許可しない</button><button type="button" data-consent="granted">許可する</button></div>
+</div>
+<script>
+(function(){
+  var ID="G-TNVG15QQXX";
+  var K="analytics", MAX=365*864e5, loaded=false;
+  var box=document.getElementById("consent");
+  function get(){
+    try{var v=JSON.parse(localStorage.getItem(K)||"null");
+      if(v&&(v.c==="granted"||v.c==="denied")&&Date.now()-v.t<MAX) return v.c}catch(e){}
+    return null;
+  }
+  function put(c){ try{localStorage.setItem(K,JSON.stringify({c:c,t:Date.now()}))}catch(e){} }
+  function load(){
+    if(loaded) return; loaded=true;
+    window.dataLayer=window.dataLayer||[];
+    window.gtag=function(){dataLayer.push(arguments)};
+    gtag("consent","default",{analytics_storage:"granted",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
+    gtag("js",new Date());
+    gtag("config",ID,{cookie_domain:"none",allow_google_signals:false,allow_ad_personalization_signals:false});
+    var s=document.createElement("script"); s.async=true;
+    s.src="https://www.googletagmanager.com/gtag/js?id="+ID;
+    document.head.appendChild(s);
+  }
+  function clear(){
+    document.cookie.split(";").forEach(function(c){
+      var n=c.split("=")[0].trim();
+      if(/^_ga/.test(n)) document.cookie=n+"=; Max-Age=0; path=/";
+    });
+  }
+  function show(){ if(!box) return; box.hidden=false; document.body.classList.add("has-consent"); }
+  function hide(){ if(!box) return; box.hidden=true; document.body.classList.remove("has-consent"); }
+  var c=get();
+  // 聞き直す時（1年たった時を含む）も、前の Cookie を消す ―― 許可し直した人は、新しい ID から始まる
+  if(c==="granted") load(); else { clear(); if(c===null) show(); }
+  if(box) box.addEventListener("click",function(ev){
+    var b=ev.target.closest("[data-consent]"); if(!b) return;
+    var v=b.getAttribute("data-consent"); put(v); hide();
+    if(v==="granted") { load(); return; }
+    // 取り消した時は、先に送るのを止める（同意の更新だけでは、Cookie を使わない送り方へ切り替わって、離れる時の1件が出る）
+    if(loaded) { window["ga-disable-"+ID]=true; gtag("consent","update",{analytics_storage:"denied"}); }
+    clear();
+    if(loaded) location.reload();
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".consent-open"),function(o){
+    o.addEventListener("click",function(ev){
+      ev.preventDefault(); show();
+      var f=box&&box.querySelector("button"); if(f) f.focus();
+    });
+  });
 })();
 </script>
 </body>
